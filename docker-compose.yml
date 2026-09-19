@@ -6,6 +6,8 @@ services:
       - "80:80"
     volumes:
       - ./www:/var/www/html
+      - ./cgi-bin:/usr/lib/cgi-bin
+      - ./cgi-src:/usr/src/cgi
     depends_on:
       - db
 
