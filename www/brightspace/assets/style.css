@@ -1,0 +1,147 @@
+:root {
+  --bg: #f7f7f5;
+  --card: #ffffff;
+  --ink: #1c1c1c;
+  --muted: #6b6b6b;
+  --line: #e4e2dd;
+  --accent: #b5482c;
+  --overdue: #b5482c;
+  --soon: #b8862b;
+  --ok: #3f7a4e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+.sub { color: var(--muted); font-size: 0.95rem; margin: 0 0 20px; }
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  min-height: 32px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+.chip.active {
+  background: var(--chip-color, var(--accent));
+  color: white;
+  border-color: var(--chip-color, var(--accent));
+}
+.chip.active .chip-dot { outline: 1px solid rgba(255,255,255,0.7); }
+.chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.setup {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.setup details { margin-top: 14px; }
+.setup summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+.setup ol { padding-left: 20px; color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+.setup .note { font-size: 0.85rem; color: var(--muted); font-style: italic; }
+
+.input-row { display: flex; gap: 8px; }
+input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+button:disabled { opacity: 0.5; cursor: default; }
+
+.status { color: var(--muted); font-size: 0.9rem; margin: 12px 0; }
+.error { color: var(--overdue); }
+
+.day-group { margin-bottom: 22px; }
+.day-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.day-label .count { color: var(--line); }
+
+.event {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+/* Left border still signals urgency (overdue / due soon / later) — course
+   identity is shown separately via the colored dot next to the course name,
+   so both pieces of information stay visible on the same card. */
+.event.overdue { border-left-color: var(--overdue); }
+.event.soon { border-left-color: var(--soon); }
+.event.ok { border-left-color: var(--ok); }
+
+.event-main { min-width: 0; }
+.event-title { font-weight: 600; font-size: 0.95rem; }
+.event-course {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 3px;
+}
+.course-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.event-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+.event-link:hover { text-decoration: underline; }
+.event-time { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+
+.empty { text-align: center; color: var(--muted); padding: 40px 0; }
