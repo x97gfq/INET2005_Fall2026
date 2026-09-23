@@ -1,2 +1,4 @@
 slides/
 cgi-bin/
+
+www/login_example_oauth2/config.local.php

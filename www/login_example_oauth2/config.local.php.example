@@ -1,0 +1,7 @@
+<?php
+// Copy this file to config.local.php and paste in your own values from the
+// Google Cloud Console. Do NOT commit config.local.php.
+return [
+    'client_id'     => '1234567890-abcdefghijklmnop.apps.googleusercontent.com',
+    'client_secret' => 'GOCSPX-your-secret-here',
+];
