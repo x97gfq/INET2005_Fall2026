@@ -1,0 +1,11 @@
+# INET2005: Apache's docroot is www/, not this project's public/ folder,
+# so without this file anything here (env, composer.json, ...) could be downloaded.
+# Only public/ should be reachable. public/ has its own .htaccess with its own
+# RewriteEngine, so these rules never apply to requests inside public/.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # /codeigniter-demo/  ->  /codeigniter-demo/public/
+    RewriteRule ^$ public/ [R=302,L]
+    # Everything else outside public/ -> 403 Forbidden
+    RewriteRule ^ - [F]
+</IfModule>
