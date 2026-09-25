@@ -7,5 +7,3 @@ www/exception_handling/logs/*.log
 
 www/env_example/.env
 
-# CodeIgniter activity solution (instructor only)
-www/codeigniter-demo/_solution/
