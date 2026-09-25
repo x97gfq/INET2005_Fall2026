@@ -1,0 +1,8 @@
+Options -Indexes
+
+# Never serve log files directly. Example 4's page reads this file with PHP
+# and displays a few lines for teaching purposes — that is very different
+# from Apache handing the raw file to anyone who requests it by name.
+<FilesMatch "\.log$">
+    Require all denied
+</FilesMatch>
