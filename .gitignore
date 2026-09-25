@@ -4,3 +4,5 @@ cgi-bin/
 www/login_example_oauth2/config.local.php
 
 www/exception_handling/logs/*.log
+
+www/env_example/.env

@@ -1,0 +1,8 @@
+Options +Indexes
+
+# Never let .env (or .env.*, e.g. .env.example) be downloaded directly.
+# Without this, anyone who knows (or guesses) the filename can read it with
+# a plain browser request, no matter what the directory listing shows.
+<FilesMatch "^\.env">
+    Require all denied
+</FilesMatch>
