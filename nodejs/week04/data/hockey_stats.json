@@ -1,0 +1,15 @@
+[
+  { "name": "Liam Doucette", "team": "Halifax Harbour Hawks", "position": "C", "games": 40, "goals": 22, "assists": 31, "shots": 118, "penaltyMinutes": 12 },
+  { "name": "Nathan Oake", "team": "Halifax Harbour Hawks", "position": "LW", "games": 38, "goals": 17, "assists": 14, "shots": 96, "penaltyMinutes": 30 },
+  { "name": "Rémi LeBlanc", "team": "Halifax Harbour Hawks", "position": "D", "games": 40, "goals": 5, "assists": 24, "shots": 71, "penaltyMinutes": 44 },
+  { "name": "Owen MacNeil", "team": "Halifax Harbour Hawks", "position": "G", "games": 30, "goals": 0, "assists": 1, "shots": 0, "penaltyMinutes": 2, "shotsAgainst": 870, "saves": 794 },
+  { "name": "Tyler Cormier", "team": "Moncton Tidal Wave", "position": "C", "games": 39, "goals": 18, "assists": 36, "shots": 104, "penaltyMinutes": 8 },
+  { "name": "Jacob Arsenault", "team": "Moncton Tidal Wave", "position": "RW", "games": 40, "goals": 26, "assists": 15, "shots": 131, "penaltyMinutes": 18 },
+  { "name": "Ethan Gallant", "team": "Moncton Tidal Wave", "position": "D", "games": 36, "goals": 3, "assists": 19, "shots": 58, "penaltyMinutes": 52 },
+  { "name": "Mathis Poirier", "team": "Moncton Tidal Wave", "position": "G", "games": 28, "goals": 0, "assists": 0, "shots": 0, "penaltyMinutes": 0, "shotsAgainst": 812, "saves": 748 },
+  { "name": "Cole Fraser", "team": "Cape Breton Coal Miners", "position": "C", "games": 40, "goals": 20, "assists": 27, "shots": 110, "penaltyMinutes": 14 },
+  { "name": "Aiden MacIsaac", "team": "Cape Breton Coal Miners", "position": "LW", "games": 37, "goals": 21, "assists": 12, "shots": 99, "penaltyMinutes": 26 },
+  { "name": "Kieran Boutilier", "team": "Cape Breton Coal Miners", "position": "RW", "games": 34, "goals": 12, "assists": 18, "shots": 80, "penaltyMinutes": 10 },
+  { "name": "Jack Pottie", "team": "Cape Breton Coal Miners", "position": "D", "games": 40, "goals": 7, "assists": 21, "shots": 88, "penaltyMinutes": 38 },
+  { "name": "Samuel Chiasson", "team": "Cape Breton Coal Miners", "position": "G", "games": 32, "goals": 0, "assists": 2, "shots": 0, "penaltyMinutes": 4, "shotsAgainst": 905, "saves": 821 }
+]

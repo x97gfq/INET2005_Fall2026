@@ -1,0 +1,16 @@
+{
+  "name": "inet2005-nodejs",
+  "version": "1.0.0",
+  "description": "INET2005 Node.js + MongoDB examples (runs in the inet-node container or locally)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mongodb": "^7.7.0",
+    "mysql2": "^3.24.4"
+  }
+}

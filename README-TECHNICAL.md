@@ -26,11 +26,13 @@ Benefits:
 
 # Understanding Docker Compose
 
-This project uses three containers:
+This project uses five containers:
 
-- lamp-web (Apache + PHP)
-- lamp-db (MySQL)
-- lamp-pma (phpMyAdmin)
+- inet-lamp-web (Apache + PHP)
+- inet-lamp-db (MySQL)
+- inet-lamp-pma (phpMyAdmin)
+- inet-node (Node.js 22, code in `nodejs/`)
+- inet-mongo (MongoDB 8)
 
 Docker Compose manages all of them together.
 
@@ -55,6 +57,21 @@ phpMyAdmin:
 ```yaml
 ports:
   - "8080:80"
+```
+
+Node.js:
+
+```yaml
+ports:
+  - "3000:3000"   # landing page (nodejs/server.js)
+  - "3001:3001"   # the example you are running
+```
+
+MongoDB:
+
+```yaml
+ports:
+  - "27017:27017"
 ```
 
 # Why MySQL Uses Port 13306
@@ -115,6 +132,26 @@ $conn = new mysqli(
 
 The hostname is `db` because Docker automatically creates internal networking between services.
 
+# How Node.js Connects to MySQL and MongoDB
+
+The same rule applies to the Node container: it reaches MySQL at `db:3306` and MongoDB at
+`mongo:27017`. Those values are passed in as environment variables in `docker-compose.yml` and read
+by `nodejs/config.js`:
+
+```javascript
+mysql: { host: process.env.MYSQL_HOST || 'localhost', port: Number(process.env.MYSQL_PORT) || 13306, ... },
+mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017',
+```
+
+The fallbacks after `||` are the ports Docker publishes on your machine, so the same files also
+run with a locally installed Node.
+
+Inside a container a server must listen on all interfaces (`app.listen(3001)`), not `127.0.0.1`,
+or Docker's port mapping cannot reach it.
+
+The container's `node_modules` lives in a named volume, separate from any `node_modules` you
+create by running `npm install` on Windows.
+
 # Database Initialization
 
 Files inside:
@@ -128,6 +165,11 @@ are executed automatically the first time MySQL creates the database.
 The sample project creates a contacts table and inserts several records.
 
 Important: initialization scripts only run when the database volume is first created.
+
+MongoDB works the same way: `mongo-init/01_seed_sales.sh` runs `mongoimport` on
+`mongo-init/sales.json` the first time the `mongo_data` volume is created, producing the
+`inet.sales` collection. There is no username or password on this MongoDB; it is for local
+development only.
 
 # Resetting the Database
 
@@ -158,6 +200,13 @@ View database logs:
 
 ```bash
 docker compose logs db
+```
+
+Run a Node example / open a Mongo shell:
+
+```bash
+docker compose exec node node week04/class1/01_hello_http.js
+docker compose exec mongo mongosh inet
 ```
 
 Restart services:
@@ -210,6 +259,8 @@ This project demonstrates:
 - PHP
 - MySQL
 - phpMyAdmin
+- Node.js and Express
+- MongoDB
 - Container networking
 - Volumes
 - Port mapping

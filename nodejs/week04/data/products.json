@@ -1,0 +1,11 @@
+[
+  { "sku": "LAP-100", "name": "Laptop", "category": "Electronics", "price": 1200, "stock": 6 },
+  { "sku": "PHN-200", "name": "Phone", "category": "Electronics", "price": 800, "stock": 10 },
+  { "sku": "HDP-300", "name": "Headphones", "category": "Electronics", "price": 150, "stock": 25 },
+  { "sku": "SHT-400", "name": "T-Shirt", "category": "Clothing", "price": 20, "stock": 120 },
+  { "sku": "JKT-500", "name": "Rain Jacket", "category": "Clothing", "price": 95, "stock": 30 },
+  { "sku": "MUG-600", "name": "Coffee Mug", "category": "Kitchen", "price": 12, "stock": 80 },
+  { "sku": "KTL-700", "name": "Kettle", "category": "Kitchen", "price": 45, "stock": 15 },
+  { "sku": "NBK-800", "name": "Notebook", "category": "Stationery", "price": 4, "stock": 300 },
+  { "sku": "PEN-900", "name": "Pen (10 pack)", "category": "Stationery", "price": 9, "stock": 150 }
+]

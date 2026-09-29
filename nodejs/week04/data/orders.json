@@ -1,0 +1,12 @@
+[
+  { "orderId": 1001, "date": "2026-09-01", "product": "Laptop", "quantity": 1, "unitPrice": 1200 },
+  { "orderId": 1002, "date": "2026-09-01", "product": "Phone", "quantity": 2, "unitPrice": 800 },
+  { "orderId": 1003, "date": "2026-09-02", "product": "T-Shirt", "quantity": 5, "unitPrice": 20 },
+  { "orderId": 1004, "date": "2026-09-03", "product": "Laptop", "quantity": 1, "unitPrice": 1200 },
+  { "orderId": 1005, "date": "2026-09-03", "product": "Notebook", "quantity": 12, "unitPrice": 4 },
+  { "orderId": 1006, "date": "2026-09-04", "product": "Headphones", "quantity": 3, "unitPrice": 150 },
+  { "orderId": 1007, "date": "2026-09-05", "product": "T-Shirt", "quantity": 2, "unitPrice": 20 },
+  { "orderId": 1008, "date": "2026-09-05", "product": "Phone", "quantity": 1, "unitPrice": 800 },
+  { "orderId": 1009, "date": "2026-09-06", "product": "Kettle", "quantity": 1, "unitPrice": 45 },
+  { "orderId": 1010, "date": "2026-09-07", "product": "Notebook", "quantity": 20, "unitPrice": 4 }
+]

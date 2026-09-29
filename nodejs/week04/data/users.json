@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Alice Johnson", "age": 28, "city": "Halifax" },
+  { "id": 2, "name": "Bob Smith", "age": 35, "city": "Dartmouth" },
+  { "id": 3, "name": "Carmen Lopez", "age": 22, "city": "Halifax" },
+  { "id": 4, "name": "Dev Patel", "age": 41, "city": "Truro" },
+  { "id": 5, "name": "Emma MacLeod", "age": 30, "city": "Halifax" },
+  { "id": 6, "name": "Farid Haddad", "age": 26, "city": "Sydney" },
+  { "id": 7, "name": "Grace Chen", "age": 38, "city": "Dartmouth" },
+  { "id": 8, "name": "Hugo Martin", "age": 19, "city": "Truro" },
+  { "id": 9, "name": "Isla Murphy", "age": 45, "city": "Halifax" },
+  { "id": 10, "name": "Jonah Doucet", "age": 33, "city": "Sydney" }
+]

@@ -7,3 +7,5 @@ www/exception_handling/logs/*.log
 
 www/env_example/.env
 
+node_modules/
+
