@@ -5,7 +5,7 @@ Two classes this year (no Wednesday):
 | | Topic | Activities |
 |---|---|---|
 | **Class 1** | Node.js on the server, the JavaScript it needs, reading and summarizing JSON | Activity 0: Roll the Dice · Activity 1: Build Your Own Server |
-| **Class 2** | MongoDB: documents vs. rows, Compass, `find()` and `aggregate()`, Node + MongoDB | Activity 2: Run the Queries |
+| **Class 2** | MongoDB: documents vs. rows, Compass, `find()` and `aggregate()`, Node + MongoDB | Activity 2: Run the Queries · Activity 3: Sales Page |
 
 Slides: `slides/nodejs_mongodb_week4.pptx` (built by `slides/build_node_mongo_deck.js`).
 Assignment 2 (Node + MySQL) starts next week; `../week05/mysql_example.js` is ready for it.
@@ -76,6 +76,7 @@ Connect Compass or the VS Code MongoDB extension to `mongodb://localhost:27017` 
 | 24 | Mongo 3: aggregate | script | `docker compose exec node node week04/class2/03_mongo_aggregate.js` |
 | 24 | Mongo 4: Express + MongoDB | server | `docker compose exec node node week04/class2/04_express_mongo.js` |
 | 25 | **Activity 2**: Run the Queries | Compass | Queries from `week04/class2/queries.mongodb.js`, plus one of their own |
+| 26 | **Activity 3**: Sales Page | server | `docker compose exec node node week04/class2/activity3/sales_page.js` |
 
 While `04_express_mongo.js` is running: http://localhost:3001 and http://localhost:3001/api/sales?store=Truro.
 
@@ -94,6 +95,7 @@ While `04_express_mongo.js` is running: http://localhost:3001 and http://localho
 | Activity 1: Build Your Own Server | server | `docker compose exec node node week04/class1/_solution/activity1_my_server.js` |
 | Activity 2: checks every query's count | script | `docker compose exec node node week04/class2/_solution/activity2_solution.js` |
 | Activity 2: queries with expected counts | file | Open `week04/class2/_solution/activity2_queries.mongodb.js` |
+| Activity 3: Sales Page | server | `docker compose exec node node week04/class2/_solution/activity3_sales_page.js` |
 | Rock Paper Scissors | server | `docker compose exec node node week04/practice/_solution/rock_paper_scissors.js` |
 | Hockey stats | script | `docker compose exec node node week04/practice/_solution/hockey_solution.js` |
 
@@ -124,7 +126,9 @@ week04/
 │   ├── queries.mongodb.js                     follow-along queries (Compass / VS Code Playground)
 │   ├── 01-03_mongo_*.js              script   connect, find, aggregate
 │   ├── 04_express_mongo.js           server   Express + MongoDB
-│   └── _solution/                             Activity 2 answer keys
+│   ├── activity3/sales_page.js       server   Activity 3 starter (Node version of www/index.php)
+│   ├── compass_queries.md                     the follow-along queries, typed into the Compass GUI
+│   └── _solution/                             Activity 2 + 3 answer keys
 ├── practice/                                  Rock Paper Scissors, hockey stats (+ _solution)
 └── data/                                      users, products, orders, hockey_stats (.json)
 ```
