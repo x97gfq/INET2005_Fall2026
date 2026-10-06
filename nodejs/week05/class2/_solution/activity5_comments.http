@@ -1,0 +1,43 @@
+# Activity 5 answer key requests (VS Code REST Client).
+# Run movies-api (3001) and _solution/activity5_comments_api.js (3002) first.
+
+@comments = http://localhost:3002/api
+@matrix = 573a139bf29313caabcf3d23
+
+### Newest comments on The Matrix (page 1, 10 per page)
+GET {{comments}}/movies/{{matrix}}/comments
+
+### TODO 1: page 2, five per page
+GET {{comments}}/movies/{{matrix}}/comments?page=2&limit=5
+
+### TODO 2: add a comment
+# @name added
+POST {{comments}}/movies/{{matrix}}/comments
+Content-Type: application/json
+
+{
+  "name": "INET2005 Student",
+  "email": "student@example.com",
+  "text": "Watched it for the API, stayed for the kung fu."
+}
+
+### It is now the newest comment
+GET {{comments}}/movies/{{matrix}}/comments?limit=1
+
+### 400: no text, bad email
+POST {{comments}}/movies/{{matrix}}/comments
+Content-Type: application/json
+
+{ "name": "Nobody", "email": "not-an-email" }
+
+### 404: the movies service says this movie doesn't exist (stretch goal)
+POST {{comments}}/movies/000000000000000000000000/comments
+Content-Type: application/json
+
+{ "name": "Ghost", "email": "ghost@example.com", "text": "Boo" }
+
+### TODO 3: delete the comment added above
+DELETE {{comments}}/comments/{{added.response.body.$._id}}
+
+### Delete it again: 404
+DELETE {{comments}}/comments/{{added.response.body.$._id}}

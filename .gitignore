@@ -9,3 +9,6 @@ www/env_example/.env
 
 node_modules/
 
+
+# dotenv files hold secrets - commit .env.example instead
+.env

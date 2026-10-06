@@ -82,12 +82,13 @@ notification is lost. We tested it: `--watch` never restarts.
 | Folder | Contents |
 |---|---|
 | [`week04/`](week04/README.md) | Node.js and MongoDB: examples, Activities 0-2, extra practice, answer keys, and a **cheat sheet of every run command** in slide order |
-| `week05/` | `mysql_example.js`: the Rolodex page (`www/index.php`) rewritten in Node + Express, for Assignment 2 |
+| [`week05/`](week05/README.md) | Class 1: Node + MySQL, `.env`, Activity 4 (groundwork for Assignment 2). Class 2: full stack, microservices, a CRUD API with Express + Mongoose over `sample_mflix`, REST Client / Postman, Swagger, Activity 5 |
 
 Each activity's answer key is in a `_solution` folder next to it.
 
 The MongoDB sample data (`inet.sales`) is loaded from `mongo-init/sales.json` the first time the
-mongo container starts.
+mongo container starts. Week 5's `sample_mflix` is loaded on demand by
+`week05/class2/00_seed_mflix.js` (about 60 MB, downloaded once).
 
 ## Troubleshooting
 

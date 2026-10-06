@@ -8,7 +8,7 @@ Two classes this year (no Wednesday):
 | **Class 2** | MongoDB: documents vs. rows, Compass, `find()` and `aggregate()`, Node + MongoDB | Activity 2: Run the Queries · Activity 3: Sales Page |
 
 Slides: `slides/nodejs_mongodb_week4.pptx` (built by `slides/build_node_mongo_deck.js`).
-Assignment 2 (Node + MySQL) starts next week; `../week05/mysql_example.js` is ready for it.
+Assignment 2 (Node + MySQL) starts next week; see [`../week05/`](../week05/README.md).
 
 ## Before class
 

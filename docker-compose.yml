@@ -40,6 +40,7 @@ services:
   #   http://localhost:3000  landing page (nodejs/server.js)
   #   http://localhost:3001  whichever example you run with
   #                          docker compose exec node node week04/class1/01_hello_http.js
+  #   http://localhost:3002  a second service at the same time (week 5 comments service)
   node:
     image: node:22-alpine
     container_name: inet-node
@@ -56,6 +57,7 @@ services:
     ports:
       - "3000:3000"
       - "3001:3001"
+      - "3002:3002"
     volumes:
       - ./nodejs:/app
       # keep the container's node_modules separate from any you install on Windows

@@ -1,0 +1,82 @@
+# Movies API requests - a Postman collection you keep in Git, next to the code.
+# VS Code: install the "REST Client" extension (humao.rest-client), then click
+# "Send Request" above any request. Run them top to bottom: the create request
+# names its response "created", and the ones after it reuse that _id.
+# Prefer Postman? Import movies-api.postman_collection.json instead.
+
+@api = http://localhost:3001/api
+@matrix = 573a139bf29313caabcf3d23
+
+### ---------- READ ----------
+
+### Search by title (any case, part of the title)
+GET {{api}}/movies?title=matrix
+
+### Filter by genre and year
+GET {{api}}/movies?genre=Sci-Fi&year=1999
+
+### Pagination: page 3, 5 per page
+GET {{api}}/movies?genre=Western&page=3&limit=5
+
+### One movie, every field
+GET {{api}}/movies/{{matrix}}
+
+### ---------- CREATE ----------
+
+# @name created
+POST {{api}}/movies
+Content-Type: application/json
+
+{
+  "title": "INET2005: The Movie",
+  "year": 2026,
+  "runtime": 95,
+  "genres": ["Documentary", "Comedy"],
+  "rated": "PG",
+  "plot": "Students build an API in an afternoon.",
+  "directors": ["A. Student"]
+}
+
+### Read it back
+GET {{api}}/movies/{{created.response.body.$._id}}
+
+### ---------- UPDATE ----------
+
+### PATCH: change only these fields
+PATCH {{api}}/movies/{{created.response.body.$._id}}
+Content-Type: application/json
+
+{ "rated": "PG-13", "runtime": 102 }
+
+### PUT: replace the whole movie - plot, genres, directors are gone afterwards
+PUT {{api}}/movies/{{created.response.body.$._id}}
+Content-Type: application/json
+
+{ "title": "INET2005: The Director's Cut", "year": 2027 }
+
+### ---------- DELETE ----------
+
+DELETE {{api}}/movies/{{created.response.body.$._id}}
+
+### Gone: 404
+GET {{api}}/movies/{{created.response.body.$._id}}
+
+### ---------- THINGS THAT SHOULD FAIL ----------
+
+### 400: breaks the schema (no title, year too early)
+POST {{api}}/movies
+Content-Type: application/json
+
+{ "year": 1066 }
+
+### 400: not an ObjectId
+GET {{api}}/movies/banana
+
+### 404: a valid id that isn't in the collection
+GET {{api}}/movies/000000000000000000000000
+
+### 400: body isn't valid JSON
+POST {{api}}/movies
+Content-Type: application/json
+
+{ title: oops }

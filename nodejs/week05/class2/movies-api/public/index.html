@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movie Finder</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #movies tr { cursor: pointer; }
+    #movies tr.table-active { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <!--
+    The FRONT END of our full-stack app. Plain HTML + JavaScript, running in the browser.
+    It never touches MongoDB: everything comes from the back end over HTTP, as JSON.
+      Movies   -> this server's API     /api/movies               (port 3001)
+      Comments -> a different service   localhost:3002/api/...    (Activity 5)
+  -->
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-baseline">
+      <h1>Movie Finder</h1>
+      <a href="/api-docs" target="_blank">API docs (Swagger)</a>
+    </div>
+
+    <form id="search" class="row g-2 mb-3">
+      <div class="col-md-5"><input class="form-control" name="title" placeholder="Title contains..."></div>
+      <div class="col-md-3">
+        <select class="form-select" name="genre">
+          <option value="">Any genre</option>
+          <option>Action</option><option>Animation</option><option>Comedy</option>
+          <option>Documentary</option><option>Drama</option><option>Horror</option>
+          <option>Romance</option><option>Sci-Fi</option><option>Thriller</option><option>Western</option>
+        </select>
+      </div>
+      <div class="col-md-2"><input class="form-control" name="year" type="number" placeholder="Year"></div>
+      <div class="col-md-2"><button class="btn btn-primary w-100">Search</button></div>
+    </form>
+
+    <div class="row">
+      <div class="col-lg-7">
+        <table class="table table-hover table-sm">
+          <thead><tr><th>Title</th><th>Year</th><th>Genres</th><th class="text-end">IMDb</th></tr></thead>
+          <tbody id="movies"></tbody>
+        </table>
+        <div class="d-flex align-items-center gap-2">
+          <button id="prev" class="btn btn-outline-secondary btn-sm">&larr; Prev</button>
+          <span id="pageInfo" class="text-muted small"></span>
+          <button id="next" class="btn btn-outline-secondary btn-sm">Next &rarr;</button>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div id="details" class="text-muted">Click a movie for details.</div>
+        <div id="comments" class="mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MOVIES_API = '/api/movies';                    // same server that sent this page
+    const COMMENTS_API = 'http://localhost:3002/api';    // another service: needs CORS
+
+    let page = 1;
+    let totalPages = 1;
+
+    // Database text must never become HTML unescaped - same rule as in PHP
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+
+    // GET /api/movies?title=...&genre=...&year=...&page=...
+    async function loadMovies() {
+      const form = new FormData(document.getElementById('search'));
+      const params = new URLSearchParams({ page, limit: 15 });
+      for (const [key, value] of form) if (value) params.set(key, value);
+
+      const res = await fetch(`${MOVIES_API}?${params}`);
+      const data = await res.json();
+      if (!res.ok) {
+        document.getElementById('movies').innerHTML = `<tr><td colspan="4" class="text-danger">${esc(data.error)}</td></tr>`;
+        return;
+      }
+
+      totalPages = data.totalPages;
+      document.getElementById('movies').innerHTML = data.results.length
+        ? data.results.map((m) => `
+            <tr data-id="${m._id}">
+              <td>${esc(m.title)}</td>
+              <td>${esc(m.year)}</td>
+              <td class="small">${esc((m.genres || []).join(', '))}</td>
+              <td class="text-end">${esc(m.imdb?.rating)}</td>
+            </tr>`).join('')
+        : '<tr><td colspan="4">No movies found.</td></tr>';
+
+      document.getElementById('pageInfo').textContent =
+        `Page ${data.page} of ${data.totalPages || 1} (${data.total} movies)`;
+      document.getElementById('prev').disabled = page <= 1;
+      document.getElementById('next').disabled = page >= totalPages;
+    }
+
+    // GET /api/movies/:id
+    async function showMovie(id) {
+      const res = await fetch(`${MOVIES_API}/${id}`);
+      const m = await res.json();
+      document.getElementById('details').innerHTML = `
+        <h2 class="h4">${esc(m.title)} <small class="text-muted">${esc(m.year)}</small></h2>
+        <p class="small text-muted">${esc(m.rated)} &middot; ${esc(m.runtime)} min &middot; ${esc((m.genres || []).join(', '))}</p>
+        <p>${esc(m.plot)}</p>
+        <p class="small"><strong>Directed by</strong> ${esc((m.directors || []).join(', '))}<br>
+           <strong>Cast</strong> ${esc((m.cast || []).join(', '))}</p>`;
+      loadComments(id);
+    }
+
+    // A second microservice. If it's down, the movies still work.
+    async function loadComments(id) {
+      const box = document.getElementById('comments');
+      try {
+        const res = await fetch(`${COMMENTS_API}/movies/${id}/comments?limit=5`);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.results; // before / after the pagination TODO
+        box.innerHTML = `<h3 class="h6">Comments</h3>` + (list.length
+          ? list.map((c) => `<div class="border-start ps-2 mb-2 small">
+              <strong>${esc(c.name)}</strong> <span class="text-muted">${esc(new Date(c.date).toLocaleDateString())}</span><br>${esc(c.text)}</div>`).join('')
+          : '<p class="small text-muted">No comments yet.</p>');
+      } catch {
+        box.innerHTML = `<div class="alert alert-secondary small">
+          The comments service (port 3002) isn't running. The movies still work:
+          that's the point of separate services.</div>`;
+      }
+    }
+
+    document.getElementById('search').addEventListener('submit', (e) => {
+      e.preventDefault();
+      page = 1;
+      loadMovies();
+    });
+    document.getElementById('prev').addEventListener('click', () => { page--; loadMovies(); });
+    document.getElementById('next').addEventListener('click', () => { page++; loadMovies(); });
+    document.getElementById('movies').addEventListener('click', (e) => {
+      const row = e.target.closest('tr[data-id]');
+      if (!row) return;
+      document.querySelectorAll('#movies tr').forEach((r) => r.classList.remove('table-active'));
+      row.classList.add('table-active');
+      showMovie(row.dataset.id);
+    });
+
+    loadMovies();
+  </script>
+</body>
+</html>

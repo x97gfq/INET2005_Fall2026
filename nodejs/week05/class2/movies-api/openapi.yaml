@@ -1,0 +1,172 @@
+# OpenAPI description of the Movies API.
+# Swagger UI (http://localhost:3001/api-docs) is generated from this file, and other
+# tools (Postman, code generators) can import it. Change a route? Change this too.
+openapi: 3.0.3
+info:
+  title: Movies API
+  version: 1.0.0
+  description: |
+    A small microservice over MongoDB's `sample_mflix.movies` collection.
+    INET2005 Week 5 - Express + Mongoose.
+servers:
+  - url: http://localhost:3001
+tags:
+  - name: Movies
+
+paths:
+  /api/movies:
+    get:
+      tags: [Movies]
+      summary: List movies (filtered, paginated)
+      parameters:
+        - { name: title, in: query, schema: { type: string }, description: 'Part of the title, any case', example: matrix }
+        - { name: genre, in: query, schema: { type: string }, example: Sci-Fi }
+        - { name: year, in: query, schema: { type: integer }, example: 1999 }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        '200':
+          description: One page of matching movies
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MoviePage' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+    post:
+      tags: [Movies]
+      summary: Create a movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MovieInput' }
+      responses:
+        '201':
+          description: Created. The Location header holds the new movie's URL.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Movie' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+
+  /api/movies/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The movie's _id (24 hex characters)
+        schema: { type: string, pattern: '^[0-9a-fA-F]{24}$' }
+        example: 573a139bf29313caabcf3d23
+    get:
+      tags: [Movies]
+      summary: Get one movie
+      responses:
+        '200':
+          description: The movie, with every stored field
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Movie' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      tags: [Movies]
+      summary: Replace a movie
+      description: The body becomes the whole movie. Fields you leave out are removed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MovieInput' }
+      responses:
+        '200':
+          description: The replaced movie
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Movie' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    patch:
+      tags: [Movies]
+      summary: Update some fields of a movie
+      description: Only the fields you send change.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MovieUpdate' }
+            example: { rated: PG-13, runtime: 140 }
+      responses:
+        '200':
+          description: The updated movie
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Movie' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [Movies]
+      summary: Delete a movie
+      responses:
+        '204': { description: Deleted (no body) }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+components:
+  schemas:
+    MovieUpdate:
+      type: object
+      properties:
+        title: { type: string, maxLength: 200, example: 'INET2005: The Movie' }
+        year: { type: integer, minimum: 1870, maximum: 2100, example: 2026 }
+        runtime: { type: integer, minimum: 1, description: Minutes, example: 95 }
+        genres: { type: array, items: { type: string }, example: [Documentary, Comedy] }
+        rated: { type: string, example: PG }
+        plot: { type: string, maxLength: 1000, example: Students build an API in an afternoon. }
+        directors: { type: array, items: { type: string } }
+        cast: { type: array, items: { type: string } }
+        imdb:
+          type: object
+          properties:
+            rating: { type: number, minimum: 0, maximum: 10 }
+            votes: { type: integer }
+        type: { type: string, enum: [movie, series], default: movie }
+    MovieInput:
+      allOf:
+        - $ref: '#/components/schemas/MovieUpdate'
+        - type: object
+          required: [title]
+    Movie:
+      allOf:
+        - type: object
+          properties:
+            _id: { type: string, example: 573a139bf29313caabcf3d23 }
+        - $ref: '#/components/schemas/MovieUpdate'
+    MoviePage:
+      type: object
+      properties:
+        page: { type: integer, example: 1 }
+        limit: { type: integer, example: 20 }
+        total: { type: integer, example: 23539 }
+        totalPages: { type: integer, example: 1177 }
+        results:
+          type: array
+          items: { $ref: '#/components/schemas/Movie' }
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        details:
+          type: object
+          additionalProperties: { type: string }
+          description: 'Validation only: one message per field'
+  responses:
+    BadRequest:
+      description: Invalid id, query value or body
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          example: { error: Validation failed, details: { title: title is required } }
+    NotFound:
+      description: No movie with that id
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          example: { error: Movie not found }
