@@ -1,6 +1,6 @@
 // Mongoose 1: connect, use a model, and watch the schema reject bad data
-// First (once):  docker compose exec node node week05/class2/00_seed_mflix.js
-// Run:           docker compose exec node node week05/class2/01_mongoose_connect.js
+// First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
+// Run:           docker compose exec node node week06/class1/01_mongoose_connect.js
 //
 // Week 4 used the mongodb driver directly: collection.find(...).toArray().
 // Mongoose sits on top of the driver and adds a schema - rules for your documents.

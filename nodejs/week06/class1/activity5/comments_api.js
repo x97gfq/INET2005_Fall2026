@@ -1,6 +1,6 @@
 // Activity 5: Comments Service - a second microservice, on its own port
 // Run (2nd terminal, while movies-api is running in the 1st):
-//   docker compose exec node node week05/class2/activity5/comments_api.js
+//   docker compose exec node node week06/class1/activity5/comments_api.js
 // Try: http://localhost:3002/api/movies/573a139bf29313caabcf3d23/comments
 // Then click a movie on http://localhost:3001 - its comments come from HERE.
 //
@@ -54,7 +54,7 @@ app.get('/api/movies/:movieId/comments', async (req, res) => {
 // TODO 3: DELETE - DELETE /api/comments/:id
 //   - 204 if it was deleted, 404 { "error": "Comment not found" } if there was no such comment
 
-// TODO 4: add requests for your new routes to week05/class2/activity5/comments.http
+// TODO 4: add requests for your new routes to week06/class1/activity5/comments.http
 //   and run each one. Include one that should fail with a 400.
 
 // STRETCH: before saving a comment, ask the MOVIES service whether the movie exists:

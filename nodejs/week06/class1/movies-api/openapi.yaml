@@ -7,7 +7,7 @@ info:
   version: 1.0.0
   description: |
     A small microservice over MongoDB's `sample_mflix.movies` collection.
-    INET2005 Week 5 - Express + Mongoose.
+    INET2005 Week 6 - Express + Mongoose.
 servers:
   - url: http://localhost:3001
 tags:

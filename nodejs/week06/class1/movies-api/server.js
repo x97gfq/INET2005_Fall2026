@@ -1,6 +1,6 @@
 // Movies API: a small microservice - Express + Mongoose over sample_mflix.movies
-// First (once):  docker compose exec node node week05/class2/00_seed_mflix.js
-// Run:           docker compose exec node node week05/class2/movies-api/server.js
+// First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
+// Run:           docker compose exec node node week06/class1/movies-api/server.js
 // Open http://localhost:3001             front end (public/index.html)
 //      http://localhost:3001/api/movies  the API
 //      http://localhost:3001/api-docs    Swagger UI, built from openapi.yaml

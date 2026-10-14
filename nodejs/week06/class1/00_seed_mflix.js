@@ -1,9 +1,9 @@
 // Load MongoDB's sample_mflix database into the local mongo container.
 // Run ONCE (about 60 MB to download, a minute or two):
-//   docker compose exec node node week05/class2/00_seed_mflix.js
+//   docker compose exec node node week06/class1/00_seed_mflix.js
 // Already loaded? It skips any collection that has documents.
 // Start over (e.g. after deleting half the movies):
-//   docker compose exec node node week05/class2/00_seed_mflix.js --force
+//   docker compose exec node node week06/class1/00_seed_mflix.js --force
 //
 // This is the same sample data Atlas offers under "Load Sample Dataset".
 // The files are mongoexport format: one document per line, in Extended JSON

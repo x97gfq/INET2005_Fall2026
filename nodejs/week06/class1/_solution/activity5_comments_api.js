@@ -1,7 +1,7 @@
 // Activity 5 answer key: Comments Service, all TODOs + the stretch goal
 // Run (2nd terminal, while movies-api is running in the 1st):
-//   docker compose exec node node week05/class2/_solution/activity5_comments_api.js
-// Requests: week05/class2/_solution/activity5_comments.http
+//   docker compose exec node node week06/class1/_solution/activity5_comments_api.js
+// Requests: week06/class1/_solution/activity5_comments.http
 
 const express = require('express');
 const cors = require('cors');
