@@ -1,0 +1,33 @@
+<%- include('partials/header', { title: 'Login' }) %>
+
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <h1 class="h3 mb-4">Login</h1>
+
+    <% if (notice) { %>
+      <div class="alert alert-info"><%= notice %></div>
+    <% } %>
+    <% if (error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/login">
+      <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" id="username" name="username" value="<%= username %>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password">
+      </div>
+      <button class="btn btn-primary">Login</button>
+    </form>
+
+    <p class="small text-muted mt-3">
+      Try <code>alice</code> / <code>password123</code>, <code>bob</code> / <code>letmein</code>,
+      or <code>carol</code> / <code>hunter2</code>.
+    </p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

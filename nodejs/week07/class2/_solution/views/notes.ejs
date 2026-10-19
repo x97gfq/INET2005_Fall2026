@@ -1,0 +1,31 @@
+<%- include('partials/header', { title: 'Session Notepad' }) %>
+
+<h1 class="h3 mb-3">Session Notepad</h1>
+<p class="text-muted">Your notes live in the session - reload the page and they're still here,
+   but a different browser (or a private window) sees its own empty list.</p>
+
+<form method="POST" action="/notes" class="mb-4">
+  <div class="input-group">
+    <input type="text" name="note" class="form-control" placeholder="Write a note...">
+    <button class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+<%# TODO 5 (done): loop, with an empty-state message, escaped output %>
+<ul class="list-group mb-3">
+  <% if (notes.length === 0) { %>
+    <li class="list-group-item text-muted">No notes yet.</li>
+  <% } else { %>
+    <% notes.forEach(function (note, i) { %>
+      <li class="list-group-item"><%= i + 1 %>. <%= note %></li>
+    <% }); %>
+  <% } %>
+</ul>
+
+<% if (notes.length > 0) { %>
+  <form method="POST" action="/clear">
+    <button class="btn btn-sm btn-outline-danger">Clear all</button>
+  </form>
+<% } %>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,27 @@
+<%- include('partials/header', { title: 'Session Notepad' }) %>
+
+<h1 class="h3 mb-3">Session Notepad</h1>
+<p class="text-muted">Your notes live in the session - reload the page and they're still here,
+   but a different browser (or a private window) sees its own empty list.</p>
+
+<form method="POST" action="/notes" class="mb-4">
+  <div class="input-group">
+    <input type="text" name="note" class="form-control" placeholder="Write a note...">
+    <button class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+<%# TODO 5: loop over notes and print each one as a list item (li).
+    If notes is empty, show a muted "No notes yet." message instead.
+    Use the escaped output tag so a note like "script" is shown as text, not run. %>
+<ul class="list-group mb-3">
+  <!-- your loop here -->
+</ul>
+
+<% if (notes.length > 0) { %>
+  <form method="POST" action="/clear">
+    <button class="btn btn-sm btn-outline-danger">Clear all</button>
+  </form>
+<% } %>
+
+<%- include('partials/footer') %>

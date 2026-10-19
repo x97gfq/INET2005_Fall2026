@@ -1,0 +1,16 @@
+<%- include('partials/header', { title: 'Dashboard' }) %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Dashboard</h1>
+  <form method="POST" action="/logout"><button class="btn btn-outline-danger btn-sm">Log out</button></form>
+</div>
+
+<div class="alert alert-success">Welcome back, <strong><%= user.username %></strong>!</div>
+
+<p>This page only renders while you have an active session. Your session has survived
+   <strong><%= views %></strong> page view<%= views === 1 ? '' : 's' %>.</p>
+
+<p class="text-muted">Open this URL in a private window and you'll be bounced to the login page -
+   the session cookie lives only in this browser.</p>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,37 @@
+<%- include('partials/header', { title: 'Movies (server-rendered)' }) %>
+
+<h1 class="mb-3">Movies</h1>
+<p class="text-muted">Same <code>sample_mflix</code> data as the week 6 API - but here the
+   <strong>server</strong> builds the HTML table with EJS, instead of the browser building it
+   from JSON with <code>fetch()</code>.</p>
+
+<form method="GET" action="/movies" class="mb-4">
+  <div class="input-group">
+    <input type="text" name="title" class="form-control" placeholder="Search a title, e.g. matrix"
+           value="<%= search %>">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
+
+<% if (movies.length === 0) { %>
+  <div class="alert alert-warning">No movies found for "<%= search %>".</div>
+<% } else { %>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Title</th><th>Year</th><th>Genres</th><th>IMDb</th></tr>
+    </thead>
+    <tbody>
+      <% movies.forEach(function (m) { %>
+        <tr>
+          <td><a href="/movies/<%= m._id %>"><%= m.title %></a></td>
+          <td><%= m.year %></td>
+          <td><%= (m.genres || []).join(', ') %></td>
+          <td><%= m.imdb && m.imdb.rating ? m.imdb.rating : '-' %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <p class="text-muted">Showing <%= movies.length %> of <%= total %> matches.</p>
+<% } %>
+
+<%- include('partials/footer') %>

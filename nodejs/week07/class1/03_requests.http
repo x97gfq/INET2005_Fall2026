@@ -1,0 +1,33 @@
+### Requests for 03_errors_and_validation.js
+### VS Code: install "REST Client" (Huachao Mao), then click "Send Request" above each block.
+### Start the server first:
+###   docker compose exec node node week07/class1/03_errors_and_validation.js
+
+@base = http://localhost:3001
+
+### List products
+GET {{base}}/api/products
+
+### Add a valid product -> 201
+POST {{base}}/api/products
+Content-Type: application/json
+
+{ "name": "Phone", "price": 800 }
+
+### Missing name and bad price -> 400 with details
+POST {{base}}/api/products
+Content-Type: application/json
+
+{ "price": -5 }
+
+### Body isn't valid JSON -> express.json() rejects it (400)
+POST {{base}}/api/products
+Content-Type: application/json
+
+{ not json }
+
+### A route that throws -> caught by the error handler (500)
+GET {{base}}/api/boom
+
+### No such route -> the 404 middleware
+GET {{base}}/api/nope

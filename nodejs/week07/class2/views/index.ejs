@@ -1,0 +1,62 @@
+<%- include('partials/header', { title: 'EJS Intro' }) %>
+
+<h1 class="mb-3">EJS: HTML built on the server</h1>
+<p class="lead">The server runs the page, drops data in, and sends finished HTML. Same tags
+you know from PHP: <code>&lt;?= ?&gt;</code> becomes <code>&lt;%= %&gt;</code>.</p>
+
+<%# ---- a loop: scriptlet tags for logic, output tags to print each value ---- %>
+<h2 class="h4 mt-4">A loop over data</h2>
+<ul class="list-group mb-4">
+  <% quotes.forEach(function (q) { %>
+    <li class="list-group-item">
+      <%= q.text %> <span class="text-muted">— <%= q.author %></span>
+    </li>
+  <% }); %>
+</ul>
+
+<%# ---- a conditional ---- %>
+<% if (quotes.length > 3) { %>
+  <p class="text-success">That's <%= quotes.length %> quotes - a good list.</p>
+<% } %>
+
+<%# ---- escaped vs unescaped output ---- %>
+<h2 class="h4 mt-4">Escaped vs. unescaped</h2>
+<p>The same value, two ways. <code>&lt;%= %&gt;</code> escapes HTML (safe for user input);
+   <code>&lt;%- %&gt;</code> trusts it as raw HTML.</p>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card"><div class="card-body">
+      <h3 class="h6">&lt;%= danger %&gt; (escaped)</h3>
+      <%= danger %>
+    </div></div>
+  </div>
+  <div class="col-md-6">
+    <div class="card border-danger"><div class="card-body">
+      <h3 class="h6">&lt;%- danger %&gt; (unescaped)</h3>
+      <%- danger %>
+    </div></div>
+  </div>
+</div>
+<p class="small text-muted mt-2">The escaped side shows the tags as text; the unescaped side
+   actually ran them. Always escape anything a user typed.</p>
+
+<%# ---- a form that posts and gets a rendered response ---- %>
+<h2 class="h4 mt-4">Input in, rendered response out</h2>
+<form method="POST" action="/echo" class="mb-2">
+  <div class="input-group">
+    <input type="text" name="message" class="form-control" placeholder="Type something..."
+           value="<%= lastMessage %>">
+    <button class="btn btn-primary">Send</button>
+  </div>
+</form>
+
+<% if (result) { %>
+  <div class="alert alert-info">
+    You said <strong><%= result.original %></strong> (<%= result.length %> characters).<br>
+    Shouting it back: <strong><%= result.shouted %></strong>
+  </div>
+<% } %>
+<p class="small text-muted">Next week this response comes from the ChatGPT API instead of a
+   function - but the page stays exactly like this.</p>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,27 @@
+<%- include('partials/header', { title: movie.title }) %>
+
+<a href="/movies" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to list</a>
+
+<h1><%= movie.title %> <small class="text-muted"><%= movie.year %></small></h1>
+
+<% if (movie.genres && movie.genres.length) { %>
+  <p>
+    <% movie.genres.forEach(function (g) { %>
+      <span class="badge bg-secondary"><%= g %></span>
+    <% }); %>
+  </p>
+<% } %>
+
+<% if (movie.plot) { %>
+  <p class="lead"><%= movie.plot %></p>
+<% } %>
+
+<ul class="list-group">
+  <li class="list-group-item"><strong>Runtime:</strong> <%= movie.runtime || '?' %> min</li>
+  <li class="list-group-item"><strong>Rated:</strong> <%= movie.rated || 'N/A' %></li>
+  <li class="list-group-item"><strong>IMDb:</strong>
+    <%= movie.imdb && movie.imdb.rating ? movie.imdb.rating : 'N/A' %></li>
+  <li class="list-group-item"><strong>Cast:</strong> <%= (movie.cast || []).join(', ') || 'N/A' %></li>
+</ul>
+
+<%- include('partials/footer') %>
