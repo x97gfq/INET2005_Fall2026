@@ -7,49 +7,16 @@
 // one screen. A Router is a mini-app: it collects related routes so server.js
 // doesn't become one giant file.
 //
-// Normally the router lives in its own file (routes/tasks.js) and you require() it.
-// It's inline here so the whole idea is on one page.
+// The router lives in its own file (taskRouter.js, right next to this one) and we
+// require() it. In a bigger project it would usually go in a routes/ folder.
 
 const express = require('express');
+const tasksRouter = require('./taskRouter');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 
 app.use(express.json());
-
-// ---- a router for everything under /api/tasks -------------------------------
-const tasksRouter = express.Router();
-
-// in-memory "database" so this example needs no MongoDB or MySQL
-let tasks = [
-  { id: 1, title: 'Learn middleware', done: true },
-  { id: 2, title: 'Learn routers', done: false },
-];
-let nextId = 3;
-
-// Paths here are RELATIVE to where the router is mounted.
-// '/' below becomes GET /api/tasks because of app.use('/api/tasks', ...) at the bottom.
-tasksRouter.get('/', (req, res) => {
-  res.json(tasks);
-});
-
-tasksRouter.get('/:id', (req, res) => {
-  const task = tasks.find((t) => t.id === Number(req.params.id));
-  if (!task) return res.status(404).json({ error: 'Task not found' });
-  res.json(task);
-});
-
-tasksRouter.post('/', (req, res) => {
-  const task = { id: nextId++, title: req.body.title, done: false };
-  tasks.push(task);
-  res.status(201).json(task);
-});
-
-tasksRouter.delete('/:id', (req, res) => {
-  tasks = tasks.filter((t) => t.id !== Number(req.params.id));
-  res.status(204).end();
-});
-// -----------------------------------------------------------------------------
 
 // A home page, handled by the main app
 app.get('/', (req, res) => {

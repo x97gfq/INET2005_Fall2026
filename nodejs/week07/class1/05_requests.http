@@ -1,0 +1,28 @@
+### Requests for 05_logging_winston.js
+### VS Code: install "REST Client" (Huachao Mao), then click "Send Request" above each block.
+### Start the server first:
+###   docker compose exec node node week07/class1/05_logging_winston.js
+### After each request, look at the terminal, then logs/combined.log and logs/error.log
+
+@base = http://localhost:3001
+
+### info: "Home page visited" with the ip as extra data
+GET {{base}}/
+
+### One message per level. Only some show, depending on LOG_LEVEL
+GET {{base}}/levels
+
+### The tasks router from 02. morgan logs it at the http level
+GET {{base}}/api/tasks
+
+### Add a task -> 201
+POST {{base}}/api/tasks
+Content-Type: application/json
+
+{ "title": "Learn winston" }
+
+### A route that throws -> error, written to error.log with the stack trace
+GET {{base}}/api/boom
+
+### No such route -> warn
+GET {{base}}/nope

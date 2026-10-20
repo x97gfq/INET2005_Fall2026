@@ -1,0 +1,49 @@
+### Requests for 06_jwt_inspect.js
+### VS Code: install "REST Client" (Huachao Mao), then click "Send Request" above each block.
+### Start the server first:
+###   docker compose exec node node week07/class1/06_jwt_inspect.js
+###
+### @token below is a ready-made token (Alice, expires 2030), signed with the demo secret.
+### Replace it with one you made at https://jwt.io (steps at the top of 06_jwt_inspect.js).
+
+@base = http://localhost:3001
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MiIsIm5hbWUiOiJBbGljZSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkwMDAwMDAwLCJleHAiOjE4OTM0NTYwMDB9.K7G6J6xgXOx3mgQh5vJ-qaxaPBOLYLSaeOeKTc4po4k
+
+### Unwrap the token: header, payload, signature (NOT verified)
+GET {{base}}/api/inspect
+Authorization: Bearer {{token}}
+
+### Verified by the requireJwt middleware -> 200 with req.user
+GET {{base}}/api/profile
+Authorization: Bearer {{token}}
+
+### No Authorization header -> 401
+GET {{base}}/api/profile
+
+### Expired (exp = Nov 2023) -> /api/inspect still reads it...
+GET {{base}}/api/inspect
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MiIsIm5hbWUiOiJBbGljZSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwMDM2MDB9.AgIRsdKJ1LLWP_mj1kmO4yMD5S065FTzLI3PiGF1pO0
+
+### ...but /api/profile says 401 "Token expired"
+GET {{base}}/api/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MiIsIm5hbWUiOiJBbGljZSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwMDM2MDB9.AgIRsdKJ1LLWP_mj1kmO4yMD5S065FTzLI3PiGF1pO0
+
+### Forged: someone made themselves "role": "admin" but signed it with the WRONG secret
+### /api/inspect happily shows role: admin...
+GET {{base}}/api/inspect
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MiIsIm5hbWUiOiJBbGljZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MDAwMDAwMCwiZXhwIjoxODkzNDU2MDAwfQ.CaV6Aa8ggmVMKVJ_t0y2rayghGMtFGhP285I8GK8mCM
+
+### ...but /api/profile rejects it: 401 "Invalid token" (invalid signature)
+GET {{base}}/api/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MiIsIm5hbWUiOiJBbGljZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MDAwMDAwMCwiZXhwIjoxODkzNDU2MDAwfQ.CaV6Aa8ggmVMKVJ_t0y2rayghGMtFGhP285I8GK8mCM
+
+### No jwt.io? Have the server sign one (expires in 1 hour)
+# @name login
+POST {{base}}/api/token
+Content-Type: application/json
+
+{ "name": "Bob", "role": "student" }
+
+### Use the token from the request above (send that one first)
+GET {{base}}/api/profile
+Authorization: Bearer {{login.response.body.token}}
