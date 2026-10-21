@@ -1,0 +1,29 @@
+meta {
+  name: Who am I after logout - 401
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_bob}}
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("says logged out", function () {
+    expect(res.getBody().error).to.include("logged out");
+  });
+}
+
+docs {
+  Same token as request 2 - still signed, not expired - but its jti is now in revoked_tokens.
+}

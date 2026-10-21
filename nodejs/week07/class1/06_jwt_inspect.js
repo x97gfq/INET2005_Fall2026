@@ -3,7 +3,7 @@
 // Test: open week07/class1/06_requests.http in VS Code (REST Client) and send each request
 //
 // A JWT ("jot", JSON Web Token) is how most APIs know who's calling. Instead of a
-// session cookie (class 2), the client sends a token on EVERY request:
+// session cookie (week 8), the client sends a token on EVERY request:
 //     Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 //
 // A JWT is three base64url pieces joined by dots:   HEADER.PAYLOAD.SIGNATURE
@@ -106,7 +106,7 @@ app.get('/api/profile', requireJwt, (req, res) => {
 });
 
 // (3) Optional: let the server make a token, so you can test without jwt.io.
-//     In a real app this is the LOGIN route - it checks a password first (class 2 does).
+//     In a real app this is the LOGIN route - it checks a password first (week07/class2/mflix-api does).
 app.post('/api/token', (req, res) => {
   const { name = 'Alice', role = 'student' } = req.body || {};
   const token = jwt.sign({ sub: '42', name, role }, JWT_SECRET, { expiresIn: '1h' });

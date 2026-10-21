@@ -1,5 +1,5 @@
 // EJS 3: sessions with express-session - the Node version of week 2's PHP login
-// Run:  docker compose exec node node week07/class2/03_sessions_login.js
+// Run:  docker compose exec node node week08/class1/03_sessions_login.js
 // Open http://localhost:3001  (you'll be sent to /login)
 //
 // HTTP is stateless: the server forgets you between requests. A SESSION fixes that.
@@ -44,7 +44,8 @@ const users = [
   { username: 'carol', passwordHash: '$2b$10$iS3DjxtayCddaRo0u4QieeYxfyBPtEny3aYk.KcZ1UdfSarwxicsG' }, // hunter2
 ];
 
-// The guard: our own middleware, just like requireKey in class 1's example 01.
+// The guard: our own middleware, just like requireKey in week07/class1/01_what_is_middleware.js
+// and requireJwt in week07/class2/mflix-api - same guard, a cookie instead of a token.
 // Reuse it on any route that needs a logged-in user.
 function requireLogin(req, res, next) {
   if (req.session.user) return next();

@@ -1,0 +1,21 @@
+meta {
+  name: Delete as alice - 204
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/movies/{{movieId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_alice}}
+}
+
+tests {
+  test("status is 204", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}

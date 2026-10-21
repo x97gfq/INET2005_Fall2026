@@ -1,0 +1,28 @@
+meta {
+  name: B1 Login as carol
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "carol",
+    "password": "hunter2"
+  }
+}
+
+script:post-response {
+  bru.setVar("token_carol", res.getBody().token);
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

@@ -3,7 +3,7 @@
 // Open http://localhost:3001/  and  http://localhost:3001/slow  and watch the terminal
 //
 // You have USED middleware already: app.use(express.json()) and express.static in
-// the week 6 movies API. This file shows what one IS, so express-session (class 2)
+// the week 6 movies API. This file shows what one IS, so express-session (week 8)
 // isn't magic.
 //
 // A middleware is just a function (req, res, next). Express runs them in order on
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // (3) Route-level middleware: only runs for requests whose path starts with /admin.
-//     This is how a real app protects pages - exactly what sessions will do in class 2.
+//     This is how a real app protects pages - exactly what sessions will do in week 8.
 function requireKey(req, res, next) {
   if (req.query.key === 'secret') return next();
   res.status(401).send('Need ?key=secret to see /admin');

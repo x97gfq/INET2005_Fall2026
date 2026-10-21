@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Activity 7 - Token Lifecycle",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

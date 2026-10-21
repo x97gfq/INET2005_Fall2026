@@ -1,0 +1,28 @@
+meta {
+  name: Login as alice
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "alice",
+    "password": "password123"
+  }
+}
+
+script:post-response {
+  bru.setVar("token_alice", res.getBody().token);
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

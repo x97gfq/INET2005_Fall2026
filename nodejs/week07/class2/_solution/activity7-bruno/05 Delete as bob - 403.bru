@@ -1,0 +1,25 @@
+meta {
+  name: Delete as bob - 403
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/movies/{{movieId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_bob}}
+}
+
+tests {
+  test("status is 403", function () {
+    expect(res.getStatus()).to.equal(403);
+  });
+}
+
+docs {
+  bob's token is valid (not 401) but an editor can't delete: 403.
+}

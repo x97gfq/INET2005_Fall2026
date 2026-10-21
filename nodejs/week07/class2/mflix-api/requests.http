@@ -1,0 +1,227 @@
+# Movies API (week 7) requests - validation, logging and JWT auth on the week 6 API.
+# VS Code: install the "REST Client" extension (humao.rest-client), then click
+# "Send Request" above any request. Run them TOP TO BOTTOM: the login requests name
+# their responses (bob, alice, carol) and later requests reuse those tokens.
+# Prefer Postman? Import mflix-api.postman_collection.json instead.
+#
+# Start the server first:
+#   docker compose exec node node week07/class2/mflix-api/server.js
+# Watch that terminal as you go - every request is logged by morgan -> winston, and
+# logins, rejections and changes get their own lines. Then open logs/combined.log.
+#
+#   alice / password123  admin   read, create, update, delete
+#   bob   / letmein      editor  read, create, update
+#   carol / hunter2      viewer  read only
+
+@api = http://localhost:3001/api
+@matrix = 573a139bf29313caabcf3d23
+
+### ================= 1. READING IS STILL PUBLIC (no token) =================
+
+### Search by title
+GET {{api}}/movies?title=matrix
+
+### Filter + pagination
+GET {{api}}/movies?genre=Western&page=3&limit=5
+
+### One movie
+GET {{api}}/movies/{{matrix}}
+
+### ================= 2. VALIDATION MIDDLEWARE (validate.js) =================
+
+### 400 from validateId - the database is never asked
+GET {{api}}/movies/banana
+
+### 400 from validateMovieQuery - each problem listed
+GET {{api}}/movies?year=nineteen&limit=5000&colour=blue
+
+### 400 - ?title=a&title=b arrives as an ARRAY, not a string
+GET {{api}}/movies?title=a&title=b
+
+### ================= 3. WRITING WITHOUT A TOKEN =================
+
+### 401 - requireJwt stops it before validation even runs
+POST {{api}}/movies
+Content-Type: application/json
+
+{ "title": "No token, no movie" }
+
+### ================= 4. LOG IN =================
+
+### 400 - validateLogin: nothing sent
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{}
+
+### 401 - wrong password (same message as a wrong username - look at the terminal: logged as a warn)
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "bob", "password": "guess" }
+
+### 401 - user that doesn't exist: same message, same speed
+### ({{$guid}} = a new random username each time, so re-running this never trips the rate limit)
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "mallory-{{$guid}}", "password": "letmein" }
+
+### 200 - bob (editor). Paste the token into https://jwt.io: sub, role, iat, exp - no password
+# @name bob
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "bob", "password": "letmein" }
+
+### 200 - alice (admin)
+# @name alice
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "alice", "password": "password123" }
+
+### 200 - carol (viewer)
+# @name carol
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "carol", "password": "hunter2" }
+
+### Who does bob's token say he is?
+GET {{api}}/auth/me
+Authorization: Bearer {{bob.response.body.token}}
+
+### ================= 5. CRUD WITH A TOKEN =================
+
+### 403 - carol is logged in (not 401) but a viewer can't create
+POST {{api}}/movies
+Authorization: Bearer {{carol.response.body.token}}
+Content-Type: application/json
+
+{ "title": "Carol's Movie" }
+
+### 400 - bob may create, but validateMovie lists every problem
+POST {{api}}/movies
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{ "year": 1066, "runtime": "long", "genres": "Drama", "isAdmin": true, "$where": "1" }
+
+### 201 - bob creates a movie. The terminal shows "Movie created ... by: bob"
+# @name created
+POST {{api}}/movies
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{
+  "title": "INET2005: Middleware Strikes Back",
+  "year": 2026,
+  "runtime": 95,
+  "genres": ["Documentary", "Comedy"],
+  "rated": "PG",
+  "plot": "Students secure an API in an afternoon.",
+  "directors": ["A. Student"]
+}
+
+### Read it back (public)
+GET {{api}}/movies/{{created.response.body.$._id}}
+
+### 400 - PATCH with an empty body
+PATCH {{api}}/movies/{{created.response.body.$._id}}
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{}
+
+### 200 - PATCH: change only these fields
+PATCH {{api}}/movies/{{created.response.body.$._id}}
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{ "rated": "PG-13", "runtime": 102 }
+
+### 200 - PUT: replace the whole movie
+PUT {{api}}/movies/{{created.response.body.$._id}}
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{ "title": "INET2005: The Director's Cut", "year": 2027 }
+
+### 403 - bob is an editor; only admins delete
+DELETE {{api}}/movies/{{created.response.body.$._id}}
+Authorization: Bearer {{bob.response.body.token}}
+
+### 204 - alice is an admin
+DELETE {{api}}/movies/{{created.response.body.$._id}}
+Authorization: Bearer {{alice.response.body.token}}
+
+### 404 - gone
+GET {{api}}/movies/{{created.response.body.$._id}}
+
+### ================= 6. BAD TOKENS (all 401) =================
+
+### Expired: alice's admin token from November 2023 (signed with the dev secret)
+DELETE {{api}}/movies/{{matrix}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGljZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoxNzAwMDAzNjAwfQ.9fvfqOmGJpr6Djd7Xy0JSxBRd2ubjgipQ9BMU_byyyY
+
+### Forged: carol gave herself "role": "admin" and signed it with a secret she guessed
+DELETE {{api}}/movies/{{matrix}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYXJvbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MDAwMDAwMCwiZXhwIjoxODkzNDU2MDAwfQ.0bjVhdEJ3bEIi9cnnWL27qOfBs4VYU40XpfNrUmsVjA
+
+### "alg": "none" - no signature at all. Rejected because we only accept HS256
+DELETE {{api}}/movies/{{matrix}}
+Authorization: Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJjYXJvbCIsInJvbGUiOiJhZG1pbiJ9.
+
+### Wrong scheme: "Token" instead of "Bearer"
+GET {{api}}/auth/me
+Authorization: Token {{bob.response.body.token}}
+
+### ================= 7. RATE LIMITING THE LOGIN (middleware/rateLimit.js) =================
+
+### Click Send on this one SIX times. Tries 1-5: 401, and the RateLimit header counts down.
+### Try 6: 429 Too Many Requests - and it stays 429 for 15 minutes, even with the right password.
+### (eve isn't a real user, so this never locks out bob or alice. Restart the server to reset it.)
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "eve", "password": "guess" }
+
+### ================= 8. LOG OUT (the token really dies) =================
+
+### A fresh login for bob, so logging out doesn't break the requests above
+# @name bobAgain
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "bob", "password": "letmein" }
+
+### 200 - the token works
+GET {{api}}/auth/me
+Authorization: Bearer {{bobAgain.response.body.token}}
+
+### 204 - log out: the token's id (jti) goes in the revoked_tokens collection
+POST {{api}}/auth/logout
+Authorization: Bearer {{bobAgain.response.body.token}}
+
+### 401 - same token, still signed and not expired, but logged out
+GET {{api}}/auth/me
+Authorization: Bearer {{bobAgain.response.body.token}}
+
+### ================= 9. HELMET'S HEADERS =================
+
+### Look at the response HEADERS, not the body: Content-Security-Policy, X-Content-Type-Options,
+### X-Frame-Options, Strict-Transport-Security... and no X-Powered-By
+GET {{api}}/movies?limit=1
+
+### ================= 10. THE ERROR HANDLER'S SAFETY NET =================
+
+### 400 - body isn't valid JSON (express.json() throws, the error handler answers)
+POST {{api}}/movies
+Authorization: Bearer {{bob.response.body.token}}
+Content-Type: application/json
+
+{ title: oops }
+
+### 404 - no such API route (logged as a warn)
+GET {{api}}/nope

@@ -1,0 +1,23 @@
+meta {
+  name: B3 No token - 401
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/movies
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "No token"
+  }
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}

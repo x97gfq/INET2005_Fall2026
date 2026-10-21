@@ -1,0 +1,25 @@
+meta {
+  name: Who am I (bob)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_bob}}
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("token says editor", function () {
+    expect(res.getBody().role).to.equal("editor");
+  });
+}

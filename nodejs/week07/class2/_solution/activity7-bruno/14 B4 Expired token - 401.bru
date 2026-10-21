@@ -1,0 +1,25 @@
+meta {
+  name: B4 Expired token - 401
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGljZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoxNzAwMDAzNjAwfQ.9fvfqOmGJpr6Djd7Xy0JSxBRd2ubjgipQ9BMU_byyyY
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("says expired", function () {
+    expect(res.getBody().error).to.equal("Token expired");
+  });
+}

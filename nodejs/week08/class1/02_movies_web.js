@@ -1,6 +1,6 @@
 // EJS 2: a real page rendered from the database
 // First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
-// Run:           docker compose exec node node week07/class2/02_movies_web.js
+// Run:           docker compose exec node node week08/class1/02_movies_web.js
 // Open http://localhost:3001/movies
 //
 // This is the week 6 movies API turned inside out. Week 6: the browser asked the API

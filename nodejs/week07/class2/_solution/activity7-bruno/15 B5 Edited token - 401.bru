@@ -1,0 +1,25 @@
+meta {
+  name: B5 Edited token - 401
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_carol}}x
+}
+
+tests {
+  test("status is 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}
+
+docs {
+  One extra character on the end of carol's token: the signature no longer matches.
+}

@@ -13,5 +13,5 @@ node_modules/
 # dotenv files hold secrets - commit .env.example instead
 .env
 
-# log files written by the week 7 logging examples
-nodejs/week07/class1/logs/
+# log files written by the logging examples (week 7 on)
+nodejs/**/logs/

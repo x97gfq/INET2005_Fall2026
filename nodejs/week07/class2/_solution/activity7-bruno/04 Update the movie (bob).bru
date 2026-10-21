@@ -1,0 +1,31 @@
+meta {
+  name: Update the movie (bob)
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/movies/{{movieId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_bob}}
+}
+
+body:json {
+  {
+    "runtime": 95
+  }
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("runtime changed", function () {
+    expect(res.getBody().runtime).to.equal(95);
+  });
+}

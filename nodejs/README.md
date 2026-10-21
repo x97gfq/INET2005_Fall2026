@@ -84,6 +84,8 @@ notification is lost. We tested it: `--watch` never restarts.
 | [`week04/`](week04/README.md) | Node.js and MongoDB: examples, Activities 0-2, extra practice, answer keys, and a **cheat sheet of every run command** in slide order |
 | [`week05/`](week05/README.md) | Class 1: Node + MySQL, `.env`, Activity 4 (groundwork for Assignment 2). Class 2 was missed and carried forward to week 6 |
 | [`week06/`](week06/README.md) | Class 1: full stack, microservices, a CRUD API with Express + Mongoose over `sample_mflix`, REST Client / Postman, Swagger, Activity 5 |
+| [`week07/`](week07/README.md) | Class 1: middleware, `express.Router`, validation + error handler, morgan + winston logging, JWT, Activity 6. Class 2: the week 6 movies API secured (validation middleware, logging, JWT login with roles, helmet, login rate limit, logout), Activity 7 (token lifecycle in Bruno), loose ends before you push, a complete AI prompt |
+| [`week08/`](week08/README.md) | Class 1: EJS templates, server-side rendering, sessions with `express-session`, Activity 8 |
 
 Each activity's answer key is in a `_solution` folder next to it.
 

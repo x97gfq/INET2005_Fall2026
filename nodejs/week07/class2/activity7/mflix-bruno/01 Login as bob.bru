@@ -1,0 +1,38 @@
+meta {
+  name: Login as bob
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "bob",
+    "password": "letmein"
+  }
+}
+
+script:post-response {
+  // Save the token so later requests can use {{token_bob}}
+  bru.setVar("token_bob", res.getBody().token);
+}
+
+tests {
+  test("status is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("returns a token", function () {
+    expect(res.getBody().token).to.be.a("string");
+  });
+}
+
+docs {
+  Trade a username + password for a JWT.
+  Paste the token into https://jwt.io - find sub, role, iat, exp and jti.
+}

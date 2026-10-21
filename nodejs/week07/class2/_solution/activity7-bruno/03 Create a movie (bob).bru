@@ -1,0 +1,36 @@
+meta {
+  name: Create a movie (bob)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/movies
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token_bob}}
+}
+
+body:json {
+  {
+    "title": "Activity 7: The Token Strikes Back",
+    "year": 2026,
+    "runtime": 90,
+    "genres": [
+      "Documentary"
+    ]
+  }
+}
+
+script:post-response {
+  bru.setVar("movieId", res.getBody()._id);
+}
+
+tests {
+  test("status is 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

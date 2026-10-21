@@ -1,5 +1,5 @@
-// Activity 7: Session Notepad
-// Run:  docker compose exec node node week07/class2/activity7/notes_app.js
+// Activity 8: Session Notepad
+// Run:  docker compose exec node node week08/class1/activity8/notes_app.js
 // Open http://localhost:3001
 //
 // GOAL: a page where you type notes and they stack up in a list. The list lives in
@@ -17,7 +17,7 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3001;
 
 app.set('view engine', 'ejs');
-// Look for views here first, then fall back to the shared class 2 views (for the partials)
+// Look for views here first, then fall back to the shared class 1 views (for the partials)
 app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, '..', 'views')]);
 app.use(express.urlencoded({ extended: true }));
 

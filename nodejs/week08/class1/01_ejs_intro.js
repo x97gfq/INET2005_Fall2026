@@ -1,5 +1,5 @@
 // EJS 1: wiring EJS into Express, and the core tags
-// Run:  docker compose exec node node week07/class2/01_ejs_intro.js
+// Run:  docker compose exec node node week08/class1/01_ejs_intro.js
 // Open http://localhost:3001
 //
 // EJS (Embedded JavaScript) is server-side templating: you write HTML with little
