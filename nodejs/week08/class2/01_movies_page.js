@@ -1,19 +1,21 @@
-// EJS 2: a real page rendered from the database
+// Class 2, step 1: the smallest face on the movies data - one list page, one detail page
 // First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
-// Run:           docker compose exec node node week08/class1/02_movies_web.js
+// Run:           docker compose exec node node week08/class2/01_movies_page.js
 // Open http://localhost:3001/movies
 //
-// This is the week 6 movies API turned inside out. Week 6: the browser asked the API
-// for JSON and built the table itself (client-side rendering). Here: the server queries
-// Mongo, renders the HTML table with EJS, and sends a finished page (server-side rendering).
-// Same data, same Mongoose model - the difference is WHERE the HTML gets built.
+// Class 1's 03_loops with the array swapped for a MongoDB query. Compare with the week 7
+// API's GET /api/movies: the same Movie.find(), but the route ends in res.render()
+// instead of res.json(). The server builds the HTML table and sends a finished page
+// (server-side rendering). Week 6's public/index.html got JSON and built the table in the
+// browser with fetch() (client-side rendering). Same data - the difference is WHERE the
+// HTML gets built.
 
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
-// Reuse the exact Movie model from week 6 - no need to redefine the schema.
-const Movie = require('../../week06/class1/movies-api/models/Movie');
+// Reuse the week 7 API's Movie model - no need to redefine the schema.
+const Movie = require('../../week07/class2/mflix-api/models/Movie');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
@@ -22,14 +24,19 @@ const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017';
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Home -> send people to the list
 app.get('/', (req, res) => res.redirect('/movies'));
 
 // The list, with an optional ?title= search
 app.get('/movies', async (req, res, next) => {
   try {
-    const search = (req.query.title || '').trim();
-    const filter = search ? { title: { $regex: search, $options: 'i' } } : {};
+    const search = typeof req.query.title === 'string' ? req.query.title.trim() : '';
+    // escapeRegex, as in week 7: "(" or "*" in a search is text, not regex syntax
+    const filter = search ? { title: { $regex: escapeRegex(search), $options: 'i' } } : {};
 
     const [total, movies] = await Promise.all([
       Movie.countDocuments(filter),

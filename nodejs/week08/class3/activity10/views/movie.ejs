@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<a href="/movies" class="btn btn-sm btn-outline-secondary mb-3">&larr; All movies</a>
+
+<h1><%= movie.title %> <small class="text-muted"><%= movie.year %></small></h1>
+<p><%= (movie.genres || []).join(', ') %></p>
+<% if (movie.plot) { %><p class="lead"><%= movie.plot %></p><% } %>
+<p>IMDb <strong><%= movie.imdb && movie.imdb.rating ? movie.imdb.rating : 'N/A' %></strong></p>
+
+<%# TODO LEVEL 1b: the comments.
+      - a heading with id="comments" (the redirect in level 3 jumps to it): Comments (commentCount)
+      - no comments? a muted "No comments yet." message
+      - otherwise a list-group: for each comment, the name (bold), the date
+        (c.date.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }))
+        and the text. Escaped tags only - people typed these. %>
+
+<%# TODO LEVEL 3: a POST form to /movies/<the movie's id>/comments with a name input and a
+      text textarea. Show errors.name / errors.text under each, and keep what they typed
+      (form.name, form.text) - class 1's 05_forms has the pattern. %>
+
+<%- include('partials/footer') %>

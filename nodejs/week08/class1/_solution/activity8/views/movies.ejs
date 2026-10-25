@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+
+<h1 class="h3 mb-3"><%= title %></h1>
+
+<%# TODO 5: the genre filter. selected marks the option that matches ?genre= %>
+<form method="GET" action="/" class="row g-2 mb-4">
+  <div class="col-auto">
+    <select name="genre" class="form-select">
+      <option value="">All genres</option>
+      <% genres.forEach((g) => { %>
+        <option value="<%= g %>" <%= g === genre ? 'selected' : '' %>><%= g %></option>
+      <% }); %>
+    </select>
+  </div>
+  <div class="col-auto"><button class="btn btn-primary">Filter</button></div>
+</form>
+
+<%# TODO 3 + TODO 4 %>
+<ul class="list-group">
+  <% movies.forEach((m) => { %>
+    <li class="list-group-item">
+      <a href="/movies/<%= m.id %>"><strong><%= m.title %></strong></a> (<%= m.year %>)
+      <% m.genres.forEach((g) => { %>
+        <span class="badge text-bg-secondary"><%= g %></span>
+      <% }); %>
+      <% if (m.rating >= 8.5) { %>
+        <span class="badge text-bg-warning">Must watch</span>
+      <% } %>
+    </li>
+  <% }); %>
+</ul>
+<p class="text-muted mt-2"><%= movies.length %> movie<%= movies.length === 1 ? '' : 's' %><%= genre ? ' in ' + genre : '' %>.</p>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= movie.title %></title>
+</head>
+<body>
+  <%# Fields of an object: the same dot notation as in JavaScript %>
+  <h1><%= movie.title %> (<%= movie.year %>)</h1>
+  <p><%= movie.rated %> · <%= movie.runtime %> min · <%= movie.genres.join(', ') %></p>
+  <p><%= movie.plot %></p>
+
+  <%# A decision: the scriptlet tag runs the if, and prints nothing itself %>
+  <% if (movie.imdb.rating >= 8) { %>
+    <p><strong>Must watch</strong> - IMDb <%= movie.imdb.rating %></p>
+  <% } else { %>
+    <p>IMDb <%= movie.imdb.rating %></p>
+  <% } %>
+
+  <h2>A review someone typed</h2>
+  <h3>Escaped: &lt;%= review %&gt;</h3>
+  <p><%= review %></p>
+
+  <h3>Raw: &lt;%- review %&gt;</h3>
+  <p><%- review %></p>
+  <p>The escaped one shows the tags as text. The raw one ran them - including the script.</p>
+</body>
+</html>

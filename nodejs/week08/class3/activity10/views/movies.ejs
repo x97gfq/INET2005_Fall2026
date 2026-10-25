@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<h1 class="h3 mb-3">Movies</h1>
+
+<form method="GET" action="/movies" class="row g-2 mb-4">
+  <div class="col-sm-9"><input name="title" class="form-control" placeholder="Search a title" value="<%= search %>"></div>
+  <div class="col-sm-3 d-grid"><button class="btn btn-primary">Search</button></div>
+</form>
+
+<% if (movies.length === 0) { %>
+  <div class="alert alert-warning">No movies match "<%= search %>".</div>
+<% } else { %>
+  <table class="table table-striped">
+    <thead><tr><th>Title</th><th>Year</th><th>Genres</th><th>IMDb</th></tr></thead>
+    <tbody>
+      <% movies.forEach((m) => { %>
+        <%# TODO LEVEL 2a: move this tr into views/partials/movie-row.ejs and include it here,
+            passing the movie in: include('partials/movie-row', { m }).
+            Then the Top rated page can use the same row. %>
+        <tr>
+          <td><a href="/movies/<%= m._id %>"><%= m.title %></a></td>
+          <td><%= m.year %></td>
+          <td><%= (m.genres || []).join(', ') %></td>
+          <td><%= m.imdb && m.imdb.rating ? m.imdb.rating : '-' %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <%# TODO LEVEL 1a: "page 2 of 1178" and Previous / Next links built with pageUrl().
+      Disable Previous on page 1 and Next on the last page (Bootstrap: class "disabled"). %>
+  <p class="text-muted"><%= total.toLocaleString() %> movies</p>
+<% } %>
+
+<%- include('partials/footer') %>

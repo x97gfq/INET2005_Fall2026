@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movies</title>
+  <style>.error { color: #b3412e; }</style>
+</head>
+<body>
+  <h1>Movies</h1>
+
+  <%# GET: the input lands in the URL as ?q=... and the value= keeps it in the box %>
+  <form method="GET" action="/">
+    <input name="q" placeholder="Search titles" value="<%= q %>">
+    <button>Search</button>
+    <% if (q) { %><a href="/">clear</a><% } %>
+  </form>
+
+  <ul>
+    <% movies.forEach((m) => { %>
+      <li><%= m.title %> (<%= m.year %>)</li>
+    <% }); %>
+  </ul>
+  <% if (movies.length === 0) { %><p>No movies match "<%= q %>".</p><% } %>
+
+  <%# POST: the inputs go in the body. On an error, form holds what they typed %>
+  <h2>Add a movie</h2>
+  <form method="POST" action="/movies">
+    <p>
+      <label>Title <input name="title" value="<%= form.title || '' %>"></label>
+      <% if (errors.title) { %><span class="error"><%= errors.title %></span><% } %>
+    </p>
+    <p>
+      <label>Year <input name="year" value="<%= form.year || '' %>"></label>
+      <% if (errors.year) { %><span class="error"><%= errors.year %></span><% } %>
+    </p>
+    <button>Add</button>
+  </form>
+</body>
+</html>

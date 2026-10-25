@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+
+<a href="/" class="btn btn-sm btn-outline-secondary mb-3">&larr; All movies</a>
+
+<% if (!movie) { %>
+  <div class="alert alert-warning">No movie with that id.</div>
+<% } else { %>
+  <h1><%= movie.title %> <small class="text-muted"><%= movie.year %></small></h1>
+  <p>IMDb <strong><%= movie.rating %></strong></p>
+  <p><%= movie.genres.join(', ') %></p>
+<% } %>
+
+<%- include('partials/footer') %>

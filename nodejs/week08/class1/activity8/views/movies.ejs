@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<h1 class="h3 mb-3"><%= title %></h1>
+
+<%# TODO 5: a GET form with a select named "genre":
+      - first option: value "" and the text All genres
+      - then one option per genre in genres (a loop)
+      - the option that equals genre gets the word selected, so the choice survives the reload
+    and a Filter button. (05_forms has a GET form.) %>
+
+<%# TODO 3: loop over movies. For each one, an li with class list-group-item showing
+      title (bold) and year, then each of its genres as a badge:
+      a span with class "badge text-bg-secondary" (a loop inside the loop).
+    TODO 4: inside the li, if the rating is 8.5 or more, add a span with class
+      "badge text-bg-warning" that says Must watch. %>
+<ul class="list-group">
+  <!-- your loop here -->
+</ul>
+
+<%- include('partials/footer') %>

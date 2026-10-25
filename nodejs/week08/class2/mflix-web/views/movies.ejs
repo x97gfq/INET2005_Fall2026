@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Movies</h1>
+  <% if (canEdit) { %><a href="/movies/new" class="btn btn-success">+ Add a movie</a><% } %>
+</div>
+
+<%# A GET form: the search lands in the URL (/movies?title=...&genre=...), so a search
+    can be bookmarked and shared, and the page links below can keep it %>
+<form method="GET" action="/movies" class="row g-2 mb-4">
+  <div class="col-sm-6">
+    <input name="title" class="form-control" placeholder="Search a title, e.g. matrix" value="<%= search %>">
+  </div>
+  <div class="col-sm-4">
+    <select name="genre" class="form-select">
+      <option value="">All genres</option>
+      <% genres.forEach((g) => { %>
+        <option value="<%= g %>" <%= g === genre ? 'selected' : '' %>><%= g %></option>
+      <% }); %>
+    </select>
+  </div>
+  <div class="col-sm-2 d-grid"><button class="btn btn-primary">Search</button></div>
+</form>
+
+<% if (results.length === 0) { %>
+  <div class="alert alert-warning">No movies match that search.</div>
+<% } else { %>
+  <table class="table table-striped align-middle">
+    <thead><tr><th>Title</th><th>Year</th><th>Genres</th><th>Rated</th><th>IMDb</th></tr></thead>
+    <tbody>
+      <% results.forEach((m) => { %>
+        <tr>
+          <td><a href="/movies/<%= m._id %>"><%= m.title %></a></td>
+          <td><%= m.year %></td>
+          <td><% (m.genres || []).forEach((g) => { %><span class="badge text-bg-light border me-1"><%= g %></span><% }); %></td>
+          <td><%= m.rated || '' %></td>
+          <td><%= m.imdb && m.imdb.rating ? m.imdb.rating : '-' %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <%# Paging: pageUrl() comes from the route - a function works as a template variable too %>
+  <div class="d-flex justify-content-between align-items-center">
+    <span class="text-muted"><%= total.toLocaleString() %> movies · page <%= page %> of <%= totalPages %></span>
+    <div class="btn-group">
+      <a class="btn btn-outline-secondary <%= page <= 1 ? 'disabled' : '' %>" href="<%= pageUrl(page - 1) %>">&larr; Previous</a>
+      <a class="btn btn-outline-secondary <%= page >= totalPages ? 'disabled' : '' %>" href="<%= pageUrl(page + 1) %>">Next &rarr;</a>
+    </div>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

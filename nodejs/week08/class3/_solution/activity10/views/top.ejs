@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+
+<h1 class="h3 mb-1">Top rated</h1>
+<p class="text-muted">The 20 best-rated movies with at least 50,000 IMDb votes. Built on the server.</p>
+
+<table class="table table-striped">
+  <thead><tr><th>#</th><th>Title</th><th>Year</th><th>Genres</th><th>IMDb</th></tr></thead>
+  <tbody>
+    <% movies.forEach((m, i) => { %>
+      <%- include('partials/movie-row', { m, rank: i + 1 }) %>
+    <% }); %>
+  </tbody>
+</table>
+
+<%- include('partials/footer') %>

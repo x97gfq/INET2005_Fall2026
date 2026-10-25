@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+<a href="/movies" class="btn btn-sm btn-outline-secondary mb-3">&larr; All movies</a>
+
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+  <h1><%= movie.title %> <small class="text-muted"><%= movie.year %></small></h1>
+
+  <%# The buttons only SHOW for the right roles. The routes check the role again:
+      hiding a button is a convenience, not security. %>
+  <div class="d-flex gap-2">
+    <% if (canEdit) { %>
+      <a href="/movies/<%= movie._id %>/edit" class="btn btn-outline-primary">Edit</a>
+    <% } %>
+    <% if (isAdmin) { %>
+      <form method="POST" action="/movies/<%= movie._id %>/delete" data-confirm="Delete &quot;<%= movie.title %>&quot;? This can't be undone.">
+        <%- include('partials/csrf') %>
+        <button class="btn btn-outline-danger">Delete</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<% if (movie.genres && movie.genres.length) { %>
+  <p><% movie.genres.forEach((g) => { %><span class="badge text-bg-secondary me-1"><%= g %></span><% }); %></p>
+<% } %>
+
+<% if (movie.fullplot || movie.plot) { %>
+  <p class="lead"><%= movie.fullplot || movie.plot %></p>
+<% } %>
+
+<ul class="list-group mb-3">
+  <li class="list-group-item"><strong>Runtime:</strong> <%= movie.runtime ? movie.runtime + ' min' : 'N/A' %></li>
+  <li class="list-group-item"><strong>Rated:</strong> <%= movie.rated || 'N/A' %></li>
+  <li class="list-group-item"><strong>IMDb:</strong>
+    <%= movie.imdb && movie.imdb.rating ? movie.imdb.rating : 'N/A' %>
+    <% if (movie.imdb && movie.imdb.votes) { %><span class="text-muted">(<%= movie.imdb.votes.toLocaleString() %> votes)</span><% } %></li>
+  <li class="list-group-item"><strong>Directed by:</strong> <%= (movie.directors || []).join(', ') || 'N/A' %></li>
+  <li class="list-group-item"><strong>Cast:</strong> <%= (movie.cast || []).join(', ') || 'N/A' %></li>
+  <% if (movie.awards && movie.awards.text) { %>
+    <li class="list-group-item"><strong>Awards:</strong> <%= movie.awards.text %></li>
+  <% } %>
+</ul>
+
+<p class="small text-muted">The same movie as JSON: <a href="/api/movies/<%= movie._id %>">/api/movies/<%= movie._id %></a></p>
+
+<%- include('partials/footer') %>

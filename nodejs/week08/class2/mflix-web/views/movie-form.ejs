@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<h1 class="h3 mb-3"><%= title %></h1>
+
+<%# One form for add AND edit. The route passes:
+      action  where to POST (/movies, or /movies/:id/edit)
+      form    what the boxes show: empty, the movie from the database, or what they typed
+      errors  { field: message } from movieProblems() - the API's own validation rules %>
+<% if (Object.keys(errors).length > 0) { %>
+  <div class="alert alert-danger">Please fix the <%= Object.keys(errors).length %> problem(s) below.</div>
+<% } %>
+
+<%# One box: label, input, and its error message if it has one %>
+<% function field(name, label, opts = {}) { %>
+  <div class="<%= opts.col || 'col-md-6' %>">
+    <label class="form-label" for="<%= name %>"><%= label %></label>
+    <input class="form-control <%= errors[opts.errorKey || name] ? 'is-invalid' : '' %>" id="<%= name %>" name="<%= name %>"
+           value="<%= form[name] ?? '' %>" placeholder="<%= opts.placeholder || '' %>">
+    <div class="invalid-feedback"><%= errors[opts.errorKey || name] %></div>
+  </div>
+<% } %>
+
+<form method="POST" action="<%= action %>" class="row g-3">
+  <%- include('partials/csrf') %>
+  <% field('title', 'Title *', { col: 'col-md-8' }) %>
+  <% field('year', 'Year', { col: 'col-md-2', placeholder: '1999' }) %>
+  <% field('runtime', 'Runtime (min)', { col: 'col-md-2' }) %>
+  <% field('genres', 'Genres', { placeholder: 'Action, Sci-Fi' }) %>
+  <% field('rated', 'Rated', { col: 'col-md-3', placeholder: 'PG-13' }) %>
+  <% field('rating', 'IMDb rating', { col: 'col-md-3', placeholder: '0 - 10', errorKey: 'imdb' }) %>
+  <% field('directors', 'Directors', { placeholder: 'comma, separated' }) %>
+  <% field('cast', 'Cast', { placeholder: 'comma, separated' }) %>
+  <div class="col-12">
+    <label class="form-label" for="plot">Plot</label>
+    <textarea class="form-control <%= errors.plot ? 'is-invalid' : '' %>" id="plot" name="plot" rows="3"><%= form.plot || '' %></textarea>
+    <div class="invalid-feedback"><%= errors.plot %></div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary">Save</button>
+    <a href="/movies" class="btn btn-link">Cancel</a>
+  </div>
+</form>
+
+<%- include('partials/footer') %>

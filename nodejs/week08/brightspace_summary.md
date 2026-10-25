@@ -1,30 +1,41 @@
-# Week 8: EJS Server-Side Templates and Sessions
+# Week 8: Put a Face on the API (EJS)
 
-Last week we finished the Express backend: middleware, validation, logging and a JWT
-login on the movies API. This week we build the front end on the server. **EJS**
-(Embedded JavaScript) templates let you build HTML with plain JavaScript: loop over data,
-render conditionally, and drop values in with `<%= %>` (escaped) and `<% %>` (logic) tags,
-with partials for the markup that repeats on every page. It's the Node counterpart to
-writing `<?php ?>` inside a `.php` file from Week 2. We wire it into Express with
-`app.set('view engine', 'ejs')` and `res.render()`, rebuild the Week 6 movies page so the
-**server** renders the HTML (instead of the browser building it from JSON), and finish with
-a login that uses **sessions** via `express-session`, the Node version of the PHP sessions
-from Week 2 and the cookie-based cousin of last week's JWT.
+Last week we finished the movies API: validation, logging, a JWT login with roles, and the
+security loose ends. It works, but the only way to use it is Postman or Swagger. This week
+we give it a face. **EJS** (Embedded JavaScript) templates let the server build HTML pages:
+you write ordinary HTML and drop data into it with `<%= %>`, loop with `<% %>`, and share a
+header and footer with partials. It's the Node version of the `<?php ?>` pages from the start of
+the term, and like PHP, **EJS runs on the server**. The browser only ever gets finished HTML. We'll
+also look at where that sits in the stack, and why a browser framework like **React** (which
+builds the page in the browser from the same JSON API) is just as valid a choice for a
+different kind of app.
 
-In the second class we use the same "input in, rendered response out" shape to build a
-ChatGPT page: a form posts, the server does something with the input, and EJS renders the
-answer.
+In the first class we start from an empty folder and build up in small steps we write
+together: a hello-world page in under ten minutes, then data and escaping, loops, partials
+and forms. In the second class we put it all on the week 7 movies API: a searchable,
+paged movie list rendered from MongoDB, a detail page, add/edit/delete forms that use the
+API's own validation rules, and a login that uses a **session cookie** instead of a token, with
+roles and protection against cross-site request forgery. The third class is a wrap-up: a
+review game, a debate on server- vs client-side rendering, the weekly quiz, and a levelled lab
+where you build your own movie pages with comments.
 
 ## What we'll cover
 
-- What EJS is, and why server-side templating beats concatenating HTML strings
-- `<%= %>` for escaped output vs. `<%- %>` and `<% %>`, and `include` for partials
-- Wiring EJS into Express: `app.set('view engine', 'ejs')` and `res.render()`
-- Server-side rendering vs. the client-side `fetch()` rendering from Week 6
-- Sessions in Express with `express-session`, compared with PHP sessions and with JWTs
-- A page that collects input and renders a response: the ChatGPT page
+- What a template engine is, and why it beats gluing HTML strings together
+- `res.render()`, the `views` folder, and passing data to a template
+- `<%= %>` (escaped) vs `<%- %>` (raw) vs `<% %>` (logic), and why escaping stops XSS
+- Loops, conditions and empty states; partials for a shared header and footer
+- GET forms (search) vs POST forms (changes), and Post/Redirect/Get
+- The same Express app answering with JSON for the API and HTML for the pages
+- Re-using validation rules so a form and the API can't disagree
+- Sessions with `express-session`: cookies vs JWTs, and when to use each
+- Roles on pages, `res.locals`, flash messages, and CSRF tokens
+- Server-side rendering (EJS, PHP) vs client-side rendering (fetch, React): trade-offs
+- Lab: paging, comments from a second collection, and a reusable partial
 
 ## Before class
 
 - Pull the latest course code and start Docker: `git pull`, then `docker compose up -d`.
-- Have MongoDB's `sample_mflix` loaded from Week 6 (the movies page uses it).
+  No new packages this week.
+- Have MongoDB's `sample_mflix` loaded from Week 6 (classes 2 and 3 use it).
+- Bring last week's movies API to mind: we build directly on it.

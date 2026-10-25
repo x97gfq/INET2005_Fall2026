@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movies</title>
+</head>
+<body>
+  <h1>Movies</h1>
+
+  <% if (movies.length === 0) { %>
+    <p>No movies yet.</p>
+  <% } else { %>
+    <table border="1" cellpadding="6">
+      <tr><th>#</th><th>Title</th><th>Year</th><th>IMDb</th></tr>
+      <%# One tag opens the loop, the HTML inside repeats once per movie, the next tag closes it %>
+      <% movies.forEach((m, i) => { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= m.title %></td>
+          <td><%= m.year %></td>
+          <td><%= m.rating %></td>
+        </tr>
+      <% }); %>
+    </table>
+    <p><%= movies.length %> movies.</p>
+  <% } %>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<%# LEVEL 2: one table row. Included with the movie passed in:
+      include('partials/movie-row', { m: movie, rank: 1 }) - rank is optional %>
+<tr>
+  <% if (locals.rank) { %><td class="text-muted"><%= rank %></td><% } %>
+  <td><a href="/movies/<%= m._id %>"><%= m.title %></a></td>
+  <td><%= m.year %></td>
+  <td><%= (m.genres || []).join(', ') %></td>
+  <td><%= m.imdb && m.imdb.rating ? m.imdb.rating : '-' %></td>
+</tr>
