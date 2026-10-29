@@ -14,7 +14,7 @@
 // we render the form again, with the error messages and what they typed.
 //
 // The list lives in memory: restart the server and it's back to three movies.
-// Class 2 does exactly this against MongoDB.
+// Next week (week 9) does exactly this against MongoDB.
 
 const path = require('path');
 const express = require('express');
@@ -35,15 +35,13 @@ const movies = [
   { title: 'Inception', year: 2010 },
 ];
 
-// What the page needs, in one place, so the GET and the failed POST render the same way
-function renderPage(res, { q = '', errors = {}, form = {} } = {}) {
-  const shown = q ? movies.filter((m) => m.title.toLowerCase().includes(q.toLowerCase())) : movies;
-  res.render('movies', { movies: shown, q, errors, form });
-}
-
 // GET /  or  GET /?q=mat
 app.get('/', (req, res) => {
-  renderPage(res, { q: (req.query.q || '').trim() });
+  const q = (req.query.q || '').trim();
+  const shown = q ? movies.filter((m) => m.title.toLowerCase().includes(q.toLowerCase())) : movies;
+
+  // movies.ejs always expects errors and form, so pass them empty here
+  res.render('movies', { movies: shown, q, errors: {}, form: {} });
 });
 
 // POST /movies   body: title=...&year=...
@@ -59,8 +57,7 @@ app.post('/movies', (req, res) => {
 
   if (Object.keys(errors).length > 0) {
     // 400, and the same page again: the messages plus what they typed (form)
-    res.status(400);
-    return renderPage(res, { errors, form: req.body });
+    return res.status(400).render('movies', { movies, q: '', errors, form: req.body });
   }
 
   movies.push({ title, year });
