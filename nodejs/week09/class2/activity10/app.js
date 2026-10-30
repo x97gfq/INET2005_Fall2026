@@ -1,6 +1,6 @@
-// Activity 10: mflix-lite - the week 8 lab
+// Activity 10: mflix-lite - the week 9 lab
 // First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
-// Run:           docker compose exec node node week08/class3/activity10/app.js
+// Run:           docker compose exec node node week09/class2/activity10/app.js
 // Open http://localhost:3001
 //
 // A small, read-mostly face on sample_mflix. The list and the movie page already work.
@@ -17,7 +17,7 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const Movie = require('../../class2/mflix-web/models/Movie');
+const Movie = require('../../class1/mflix-web/models/Movie');
 const Comment = require('./models/Comment');
 
 const app = express();

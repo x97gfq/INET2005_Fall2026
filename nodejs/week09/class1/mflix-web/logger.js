@@ -3,7 +3,7 @@
 //
 // Levels, most to least serious:  error, warn, info, http, verbose, debug, silly
 // LOG_LEVEL (in .env or on the command line) picks how much you see. Default 'http'.
-//   docker compose exec -e LOG_LEVEL=debug node node week08/class2/mflix-web/server.js
+//   docker compose exec -e LOG_LEVEL=debug node node week09/class1/mflix-web/server.js
 //
 // Files land in mflix-web/logs/ (git-ignored):
 //   error.log     errors only

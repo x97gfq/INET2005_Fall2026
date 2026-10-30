@@ -1,0 +1,50 @@
+<h2>Week 9: A Face on mflix, then Hardening the API</h2>
+
+<p>Last week we learned <strong>EJS</strong> from an empty folder: templates, escaping, loops, partials and
+forms, all on small in-memory examples. This week we put those templates on the real thing.
+We take the week 7 movies API and give it a face: a searchable, paged movie list rendered
+from MongoDB, a detail page, add/edit/delete forms that use the API's own validation rules,
+and a login that uses a <strong>session cookie</strong> instead of a token, with roles and protection
+against cross-site request forgery. The JSON API keeps working alongside the pages, unchanged.
+Then a wrap-up: a review game, a debate on server- vs client-side rendering (EJS, PHP, React),
+and a levelled lab where you build your own movie pages with comments.</p>
+
+<p>The rest of the week is about hardening. We look at Node modules and how <code>require()</code> /
+<code>import</code> organize a growing codebase, then operational visibility: Morgan for HTTP request
+logging and express-winston for structured application logs, so that when something breaks you
+have evidence. Next, JWT enforced as middleware on a real REST API. Then CI/CD: a GitHub Actions
+workflow that checks out, installs and deploys a Node API to an Azure Web App on every push to
+<code>main</code>. We close on the OWASP Top 10 (2021), working through all ten risks and the defence
+for each.</p>
+
+<h3>What we'll cover</h3>
+<ul>
+  <li>The same Express app answering with JSON for the API and HTML for the pages</li>
+  <li>Re-using validation rules so a form and the API can't disagree</li>
+  <li>Sessions with <code>express-session</code>: cookies vs JWTs, and when to use each</li>
+  <li>Roles on pages, <code>res.locals</code>, flash messages, and CSRF tokens</li>
+  <li>Server-side rendering (EJS, PHP) vs client-side rendering (fetch, React): trade-offs</li>
+  <li>Lab: paging, comments from a second collection, and a reusable partial</li>
+  <li>Node modules: <code>require()</code> vs. ES <code>import</code>, and built-in modules like <code>fs</code> and <code>http</code></li>
+  <li>HTTP request logging with Morgan; structured application logging with express-winston</li>
+  <li>JWT middleware on a RESTful API, and the claims a token carries</li>
+  <li>CI/CD: what continuous integration and deployment automate, and why it catches issues early</li>
+  <li>GitHub Actions deploying a Node.js API to an Azure Web App on push to <code>main</code></li>
+  <li>OWASP Top 10 (2021), A01–A10: broken access control, cryptographic failures, injection,
+    insecure design, security misconfiguration, vulnerable components, authentication failures,
+    integrity failures, logging failures, and SSRF</li>
+</ul>
+
+<h3>Before class</h3>
+<ul>
+  <li>Pull the latest course code and start Docker: <code>git pull</code>, then <code>docker compose up -d</code>.
+    No new packages this week.</li>
+  <li>Have MongoDB's <code>sample_mflix</code> loaded from Week 6 (the mflix pages and the lab use it).</li>
+  <li>Bring the week 7 movies API and last week's EJS steps to mind: we build directly on both.</li>
+</ul>
+
+<h3>College dates this week</h3>
+<ul>
+  <li><strong>Friday, November 6</strong> — Last Day to Withdraw from Fall Term classes with a final grade of W
+    ("withdrawal not fail")</li>
+</ul>

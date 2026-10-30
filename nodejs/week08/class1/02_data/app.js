@@ -2,7 +2,7 @@
 // Run:  docker compose exec node node week08/class1/02_data/app.js
 // Open http://localhost:3001
 //
-// One movie, shaped like a document from sample_mflix (week 6). Next class this object
+// One movie, shaped like a document from sample_mflix (week 6). Next week this object
 // comes out of MongoDB instead of being typed in here - the template won't change.
 //
 // The tags in views/movie.ejs:

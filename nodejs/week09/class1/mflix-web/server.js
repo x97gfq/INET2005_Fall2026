@@ -1,6 +1,6 @@
-// mflix-web, week 8: the week 7 movies API, plus a face - EJS pages built on the server.
+// mflix-web, week 9: the week 7 movies API, plus a face - EJS pages built on the server.
 // First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
-// Run:           docker compose exec node node week08/class2/mflix-web/server.js
+// Run:           docker compose exec node node week09/class1/mflix-web/server.js
 // Open http://localhost:3001             the EJS pages (log in as alice, bob or carol)
 //      http://localhost:3001/fetch.html  week 6's page: the same list, built in the browser
 //      http://localhost:3001/api-docs    the JSON API, unchanged from week 7
@@ -70,7 +70,7 @@ app.use(
 // (1) morgan -> winston: one log line per request. :user is a custom token - who the JWT
 //     said you were (requireJwt sets req.user; morgan writes the line when the response
 //     finishes, so it's there by then). morgan never logs the Authorization header.
-//     Week 8: or who the session says you are, for the pages.
+//     Week 9: or who the session says you are, for the pages.
 morgan.token('user', (req) => (req.user ? req.user.sub : req.session && req.session.user ? req.session.user.username : '-'));
 app.use(
   morgan(':method :url :status :response-time ms user=:user', {
@@ -81,7 +81,7 @@ app.use(
 // (2) JSON bodies, capped at 10 kB. A movie is well under 1 kB; without a limit (default
 //     100 kB) someone can make the server parse huge bodies all day.
 app.use(express.json({ limit: '10kb' }));
-//     ...and form bodies (title=Up&year=2009), the same 10 kB cap. Week 8: the pages' forms.
+//     ...and form bodies (title=Up&year=2009), the same 10 kB cap. Week 9: the pages' forms.
 app.use(express.urlencoded({ extended: false, limit: '10kb' }));
 
 // (3) Static files: week 6's fetch.html + app.js, and the pages' confirm.js
@@ -102,7 +102,7 @@ app.use('/api', (req, res) => {
   res.status(404).json({ error: `No route for ${req.method} ${req.originalUrl}` });
 });
 
-// ---- The pages (week 8) ----------------------------------------------------------
+// ---- The pages (week 9) ----------------------------------------------------------
 // Sessions start HERE, after the API: an /api request has already been answered above,
 // so it never gets a session or a cookie. The API is still token-only.
 app.use(

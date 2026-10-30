@@ -1,14 +1,14 @@
-# Activity 10: mflix-lite (Week 8 Lab)
+# Activity 10: mflix-lite (Week 9 Lab)
 
 A small face on `sample_mflix`, built in levels. The list page and the movie page already
 work. Each level adds one thing you've seen this week. Do them in order and get each level
 working before you start the next one.
 
 ```bash
-docker compose exec node node week08/class3/activity10/app.js
+docker compose exec node node week09/class2/activity10/app.js
 ```
 
-Open http://localhost:3001. Answer key: `week08/class3/_solution/activity10/` (try first!).
+Open http://localhost:3001. Answer key: `week09/class2/_solution/activity10/` (try first!).
 
 | Level | You add | Skills | Who |
 |---|---|---|---|

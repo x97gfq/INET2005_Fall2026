@@ -15,3 +15,12 @@ node_modules/
 
 # log files written by the logging examples (week 7 on)
 nodejs/**/logs/
+
+# assignment sample solutions - keep local for now
+www/assignment1/_solution/
+nodejs/assignment2/_solution/
+nodejs/demo/
+nodejs/week08/wk08-quiz-ejs-front-end.csv
+
+# trivia assignment: the Brightspace text and the sample solution stay local
+nodejs/assignment-trivia/

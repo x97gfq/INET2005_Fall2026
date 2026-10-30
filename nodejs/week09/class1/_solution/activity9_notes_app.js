@@ -1,5 +1,5 @@
 // Activity 9 ANSWER KEY: Session Notepad
-// Run:  docker compose exec node node week08/class2/_solution/activity9_notes_app.js
+// Run:  docker compose exec node node week09/class1/_solution/activity9_notes_app.js
 
 const path = require('path');
 const express = require('express');

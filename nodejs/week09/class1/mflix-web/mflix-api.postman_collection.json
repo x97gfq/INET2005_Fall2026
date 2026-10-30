@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "INET2005 Week 7 - Movies API (validation, logging, JWT)",
-    "description": "The week 6 movies API with validation middleware, morgan + winston logging and JWT auth.\n\nStart week08/class2/mflix-web/server.js (or week07/class2/mflix-api/server.js) first (port 3001). Run the folders top to bottom: the Login requests save each user's token in a collection variable (token_alice, token_bob, token_carol) and Create saves the new movie's _id in movieId.\n\nalice / password123 (admin) - bob / letmein (editor) - carol / hunter2 (viewer)",
+    "description": "The week 6 movies API with validation middleware, morgan + winston logging and JWT auth.\n\nStart week09/class1/mflix-web/server.js (or week07/class2/mflix-api/server.js) first (port 3001). Run the folders top to bottom: the Login requests save each user's token in a collection variable (token_alice, token_bob, token_carol) and Create saves the new movie's _id in movieId.\n\nalice / password123 (admin) - bob / letmein (editor) - carol / hunter2 (viewer)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [

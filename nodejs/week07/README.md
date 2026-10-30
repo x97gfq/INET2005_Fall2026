@@ -5,7 +5,7 @@
 | **Class 1** | Assignment 3 review, then the Express backend properly: what **middleware** is, `express.Router`, a central **error handler**, **input validation**, **logging** with morgan + winston, and reading a **JWT** bearer token | Activity 6: Bookmarks API |
 | **Class 2** | **Tie it together**: the week 6 movies API (`mflix`) rebuilt with custom validation middleware, morgan + winston, a JWT login with roles, helmet, a login rate limit and a logout that revokes the token, updated `requests.http` + Postman, the loose ends to tie up before you push, and a complete AI prompt that rebuilds it all | Activity 7: The Token Lifecycle (Bruno) |
 
-EJS templates and sessions moved to [week 8](../week08/README.md).
+EJS templates moved to [week 8](../week08/README.md), sessions to [week 9](../week09/README.md).
 
 Slides: `slides/nodejs_week7.pptx` (built by `slides/build_week7_deck.js`).
 
@@ -15,7 +15,7 @@ Run these from the **repo root**, where `docker-compose.yml` lives:
 
 ```bash
 git pull
-docker compose up -d        # installs new packages: morgan, winston, jsonwebtoken, bcryptjs, helmet, express-rate-limit (+ ejs, express-session for week 8)
+docker compose up -d        # installs new packages: morgan, winston, jsonwebtoken, bcryptjs, helmet, express-rate-limit (+ ejs, express-session for weeks 8-9)
 ```
 
 `package.json` adds **morgan**, **winston**, **jsonwebtoken**, **bcryptjs**, **helmet** and **express-rate-limit** (and week 8's **ejs** and

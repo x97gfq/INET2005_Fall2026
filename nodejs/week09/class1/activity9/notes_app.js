@@ -1,5 +1,5 @@
 // Activity 9: Session Notepad
-// Run:  docker compose exec node node week08/class2/activity9/notes_app.js
+// Run:  docker compose exec node node week09/class1/activity9/notes_app.js
 // Open http://localhost:3001
 //
 // GOAL: a page where you type notes and they stack up in a list. The list lives in

@@ -43,7 +43,7 @@ function pickFields(body) {
 
 // READ (many):  GET /api/movies?title=matrix&genre=Sci-Fi&year=1999&page=1&limit=20
 router.get('/', validateMovieQuery, async (req, res) => {
-  // The query itself moved to services/movies.js in week 8, so the EJS pages share it
+  // The query itself moved to services/movies.js in week 9, so the EJS pages share it
   res.json(await listMovies({
     title: req.query.title,
     genre: req.query.genre,

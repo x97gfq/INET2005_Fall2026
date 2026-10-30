@@ -1,6 +1,6 @@
 // Class 2, step 1: the smallest face on the movies data - one list page, one detail page
 // First (once):  docker compose exec node node week06/class1/00_seed_mflix.js
-// Run:           docker compose exec node node week08/class2/01_movies_page.js
+// Run:           docker compose exec node node week09/class1/01_movies_page.js
 // Open http://localhost:3001/movies
 //
 // Class 1's 03_loops with the array swapped for a MongoDB query. Compare with the week 7

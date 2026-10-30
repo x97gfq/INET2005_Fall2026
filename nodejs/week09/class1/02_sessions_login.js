@@ -1,5 +1,5 @@
 // EJS 3: sessions with express-session - the Node version of week 2's PHP login
-// Run:  docker compose exec node node week08/class2/02_sessions_login.js
+// Run:  docker compose exec node node week09/class1/02_sessions_login.js
 // Open http://localhost:3001  (you'll be sent to /login)
 //
 // HTTP is stateless: the server forgets you between requests. A SESSION fixes that.

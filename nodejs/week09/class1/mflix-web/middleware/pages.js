@@ -1,6 +1,6 @@
 // Middleware for the EJS pages - the session-cookie version of middleware/auth.js.
 //
-//                       the JSON API (week 7)             the pages (week 8)
+//                       the JSON API (week 7)             the pages (week 9)
 //   who are you?        requireJwt  -> 401 JSON            requireLogin    -> redirect to /login
 //   are you allowed?    requireRole -> 403 JSON            requirePageRole -> 403 page
 //   where it lives      Authorization: Bearer <token>      a session cookie (req.session.user)

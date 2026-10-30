@@ -43,7 +43,7 @@ function loginLimit(handler) {
 // POST /api/auth/login - the JSON API gets JSON
 const loginLimiter = loginLimit((req, res, message) => res.json({ error: message }));
 
-// POST /login - the login PAGE gets the form back, with the message (week 8).
+// POST /login - the login PAGE gets the form back, with the message (week 9).
 // Its own counter, so 5 misses on the page and 5 on the API are counted separately.
 const pageLoginLimiter = loginLimit((req, res, message) =>
   res.render('login', { title: 'Log in', username: req.body.username, error: message })

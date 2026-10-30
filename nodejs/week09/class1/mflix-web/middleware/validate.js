@@ -46,7 +46,7 @@ const movieRules = {
 
 // ---- the body: POST, PUT, PATCH ------------------------------------------------
 // Every problem with a movie object, as { field: message } - empty if it's fine.
-// Week 8: pulled out of validateMovie so the EJS forms (routes/pages.js) check a movie
+// Week 9: pulled out of validateMovie so the EJS forms (routes/pages.js) check a movie
 // with exactly the same rules as the JSON API. One set of rules, two front doors.
 function movieProblems(body, { partial = false } = {}) {
   const details = {};

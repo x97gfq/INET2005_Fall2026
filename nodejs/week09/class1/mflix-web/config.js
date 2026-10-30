@@ -3,7 +3,7 @@
 //
 // Two secrets now, and they guard different doors:
 //   JWT_SECRET      signs the API's tokens (week 7). Know it -> forge { "role": "admin" }
-//   SESSION_SECRET  signs the pages' session cookie (week 8). Know it -> forge a session id
+//   SESSION_SECRET  signs the pages' session cookie (week 9). Know it -> forge a session id
 // For both:
 //   * it comes from .env, never from code that gets committed
 //   * in production (NODE_ENV=production) the server refuses to start without one
@@ -26,6 +26,6 @@ module.exports = {
   DB_NAME: process.env.DB_NAME || 'sample_mflix',
   JWT_SECRET: secret('JWT_SECRET', 'inet2005-week7-mflix-dev-secret-change-me'),
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1h',
-  SESSION_SECRET: secret('SESSION_SECRET', 'inet2005-week8-mflix-dev-session-secret'),
+  SESSION_SECRET: secret('SESSION_SECRET', 'inet2005-week9-mflix-dev-session-secret'),
   LOGIN_MAX_ATTEMPTS: Number(process.env.LOGIN_MAX_ATTEMPTS) || 5, // failed logins per 15 min
 };

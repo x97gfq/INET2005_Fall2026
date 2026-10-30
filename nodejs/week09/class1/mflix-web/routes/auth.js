@@ -20,7 +20,7 @@ const logger = require('../logger');
 
 const router = express.Router();
 
-// The users and the password check moved to users.js in week 8: the pages' session
+// The users and the password check moved to users.js in week 9: the pages' session
 // login (routes/pages.js) checks passwords too.
 
 // validateLogin, then the rate limiter (5 failed tries / 15 min), then the password check

@@ -5,7 +5,7 @@
 # Prefer Postman? Import mflix-api.postman_collection.json instead.
 #
 # Start the server first:
-#   docker compose exec node node week08/class2/mflix-web/server.js
+#   docker compose exec node node week09/class1/mflix-web/server.js
 # Watch that terminal as you go - every request is logged by morgan -> winston, and
 # logins, rejections and changes get their own lines. Then open logs/combined.log.
 #

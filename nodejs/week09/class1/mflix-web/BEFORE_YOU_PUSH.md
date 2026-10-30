@@ -3,7 +3,7 @@
 mflix-web is the week 7 movies API plus EJS pages. The API's checklist below still applies
 unchanged. Adding a face to it with a cookie login brings a few new items, so those come first.
 
-## Week 8: the pages
+## Week 9: the pages
 
 | ✔/☐ | What | Why it matters | Where / how |
 |---|---|---|---|
@@ -95,7 +95,7 @@ git diff --staged           # read every line you're about to commit
 git log -p -3 | grep -iE "secret|password|token"   # did a secret sneak into a recent commit?
 docker compose exec node npm audit                   # known vulnerabilities in your packages
 # with the API running in another terminal:
-docker compose exec node npx -y newman run week08/class2/mflix-web/mflix-api.postman_collection.json   # all green?
+docker compose exec node npx -y newman run week09/class1/mflix-web/mflix-api.postman_collection.json   # all green?
 ```
 
 If a secret ever reaches GitHub, deleting the file isn't enough because it stays in the

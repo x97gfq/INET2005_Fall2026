@@ -1,12 +1,12 @@
 // Activity 10: mflix-lite - ANSWER KEY (all four levels)
-// Run:  docker compose exec node node week08/class3/_solution/activity10/app.js
+// Run:  docker compose exec node node week09/class2/_solution/activity10/app.js
 // Open http://localhost:3001
 
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
-const Movie = require('../../../class2/mflix-web/models/Movie');
+const Movie = require('../../../class1/mflix-web/models/Movie');
 const Comment = require('./models/Comment');
 
 const app = express();

@@ -20,7 +20,7 @@ const logger = require('../logger');
 
 const router = express.Router();
 
-// The same three demo users as week08's session login, now with a ROLE.
+// The same three demo users as week09's session login, now with a ROLE.
 //   admin  - everything, including DELETE
 //   editor - create and update movies
 //   viewer - can log in, but can only read (same as no token at all)
