@@ -3,10 +3,12 @@
 | | Topic | Activities |
 |---|---|---|
 | **Class 1** | **mflix-web**: the week 7 movies API with a face. A server-rendered movie list, then sessions, then the full app: search, paging, detail, add/edit/delete forms using the API's own validation, a session login with roles, CSRF tokens | Activity 9: Session Notepad |
-| **Class 2** | **Wrap-up, review and lab**: a review game, the stack debate (EJS vs React vs PHP), the weekly quiz, and a levelled lab | Activity 10: mflix-lite (lab) |
+| **Class 2** | **Calling another API, then wrap-up**: a route that `fetch()`es someone else's API (weather) and renders it with EJS, the same pattern with a key for the trivia assignment; then a review game, the stack debate (EJS vs React vs PHP), the weekly quiz, and a levelled lab | Activity 10: mflix-lite (lab) |
 
-Builds on [week 8](../week08/README.md) (EJS from zero). The slides for these two classes are
-still in `slides/nodejs_week8.pptx`.
+Builds on [week 8](../week08/README.md) (EJS from zero). Slides: `slides/nodejs_week9.pptx`.
+
+**Trivia assignment due Sunday, November 15.** Class 2's first half (server-side API calls) is the
+piece it needs that we haven't done before.
 
 ## Before class
 
@@ -17,7 +19,8 @@ git pull
 docker compose up -d
 ```
 
-No new packages: **ejs**, **express-session** and **bcryptjs** came in with week 7. If an
+No new packages: **ejs**, **express-session** and **bcryptjs** came in with week 7, and `fetch()` is
+built into Node 18+. If an
 example reports `Cannot find module 'ejs'` (or `express-session`), run
 `docker compose restart node` to re-run `npm install`.
 
@@ -72,13 +75,24 @@ Try these on purpose:
 - Log in as carol and open http://localhost:3001/movies/new: a 403 page. Hiding the button wasn't the security, the route check was.
 - Open a private window: you're logged out there. The session cookie belongs to one browser.
 
-### Class 2: Wrap-up, review and lab
+### Class 2: Calling another API, then wrap-up
 
 | What | Type | Command / file |
 |---|---|---|
+| **Step 1**: weather from Open-Meteo (free, no key), fetched by the server and rendered with EJS | server | `docker compose exec node node week09/class2/01_weather.js` → http://localhost:3001/weather?city=Halifax |
 | Review sheet: the whole stack, EJS vs React, ten things to explain | read | [`class2/REVIEW.md`](class2/REVIEW.md) |
 | **Activity 10: mflix-lite** (the lab, in four levels) | read | [`class2/LAB.md`](class2/LAB.md) |
 | Activity 10 starter | server | `docker compose exec node node week09/class2/activity10/app.js` |
+
+While `01_weather.js` runs, try these on purpose:
+
+- **View Source**: the temperatures are in the HTML. **DevTools > Network**: one request, to `localhost`, never to open-meteo.com. The server made the API calls.
+- Refresh the same city: no new `-> GET` lines in the terminal. Answers are cached for 10 minutes (free APIs have rate limits).
+- `St. John's` (the apostrophe is URL-encoded by `URLSearchParams`), `Xyzzy` (a 404 page), `<b>hi</b>` (escaped).
+- Turn off Wi-Fi and try a new city: a polite 502 page, with the real error in the terminal.
+
+The trivia assignment's AI call is the same shape: a `POST` with a JSON body and an
+`Authorization: Bearer` key read from `.env`. The key stays on the server and never reaches the page.
 
 ### Answer keys
 
@@ -107,6 +121,9 @@ Try these on purpose:
 - **Week 7's security habits carry over**: escape output (`<%= %>`) like helmet's CSP blocks
   scripts, validate at the door, check roles in the route. Cookies bring one new risk, **CSRF**,
   so the pages add `sameSite` cookies and a form token.
+- **The server can be a client too.** `01_weather.js` swaps `await Movie.find()` for
+  `await fetch('https://api.open-meteo.com/...')`, and the route still ends in `res.render()`. Check `res.ok`
+  (fetch doesn't throw on a 404 or 500), set a timeout, and keep API keys in `.env` on the server.
 - **Later in the term: React.** It would call `/api/movies` with `fetch()` and a JWT, the same as
   `fetch.html`, and the API wouldn't change.
 
@@ -134,7 +151,9 @@ week09/
 │       ├── public/confirm.js        NEW  "Delete this movie?" (the CSP blocks inline JS)
 │       └── ...                      routes/auth.js, routes/movies.js, models/, openapi.yaml, requests.http,
 │                                    Postman collection, BEFORE_YOU_PUSH.md - as in week 7
-├── class2/                          wrap-up, review, lab
+├── class2/                          calling another API, then wrap-up, review, lab
+│   ├── 01_weather.js                step 1: fetch() Open-Meteo in a route, render with EJS
+│   ├── views/                       weather.ejs (+ partials/)
 │   ├── REVIEW.md                    the stack top to bottom, EJS vs React, ten things to explain
 │   ├── LAB.md                       Activity 10 instructions (four levels)
 │   ├── activity10/                  Activity 10 starter: mflix-lite (+ models/Comment.js)

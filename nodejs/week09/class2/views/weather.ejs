@@ -1,0 +1,45 @@
+<%- include('partials/header', { title: 'Weather (server-side API call)' }) %>
+
+<h1 class="mb-3">Weather</h1>
+<p class="text-muted">The <strong>server</strong> asked Open-Meteo for this, then built the page
+   with EJS. Open DevTools &gt; Network: your browser only talked to <code>/weather</code>.</p>
+
+<form method="GET" action="/weather" class="mb-4">
+  <div class="input-group">
+    <input type="text" name="city" class="form-control" placeholder="A city, e.g. Halifax"
+           value="<%= city %>" required>
+    <button class="btn btn-primary">Look up</button>
+  </div>
+</form>
+
+<% if (error) { %>
+  <div class="alert alert-warning"><%= error %></div>
+<% } %>
+
+<% if (weather) { %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="h4"><%= weather.place %></h2>
+      <p class="display-5 mb-1"><%= weather.now.temp %>&deg;C</p>
+      <p class="mb-0"><%= weather.now.conditions %> &middot; feels like <%= weather.now.feelsLike %>&deg;
+         &middot; wind <%= weather.now.wind %> km/h</p>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead><tr><th>Day</th><th>Conditions</th><th>High</th><th>Low</th></tr></thead>
+    <tbody>
+      <% weather.days.forEach(function (d) { %>
+        <tr>
+          <td><%= d.date %></td>
+          <td><%= d.conditions %></td>
+          <td><%= d.high %>&deg;</td>
+          <td><%= d.low %>&deg;</td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <p class="text-muted"><small>Data: Open-Meteo.com</small></p>
+<% } %>
+
+<%- include('partials/footer') %>

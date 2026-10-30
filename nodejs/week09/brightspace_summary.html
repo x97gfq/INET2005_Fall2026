@@ -6,7 +6,9 @@ We take the week 7 movies API and give it a face: a searchable, paged movie list
 from MongoDB, a detail page, add/edit/delete forms that use the API's own validation rules,
 and a login that uses a <strong>session cookie</strong> instead of a token, with roles and protection
 against cross-site request forgery. The JSON API keeps working alongside the pages, unchanged.
-Then a wrap-up: a review game, a debate on server- vs client-side rendering (EJS, PHP, React),
+In the second class our server becomes a client itself: a route calls another company's API (live
+weather), checks the reply, and renders it with EJS. That's the pattern the trivia assignment
+(due Sunday, November 15) uses for its AI questions, with the API key kept on the server. Then a wrap-up: a review game, a debate on server- vs client-side rendering (EJS, PHP, React),
 and a levelled lab where you build your own movie pages with comments.</p>
 
 <p>The rest of the week is about hardening. We look at Node modules and how <code>require()</code> /
@@ -23,6 +25,8 @@ for each.</p>
   <li>Re-using validation rules so a form and the API can't disagree</li>
   <li>Sessions with <code>express-session</code>: cookies vs JWTs, and when to use each</li>
   <li>Roles on pages, <code>res.locals</code>, flash messages, and CSRF tokens</li>
+  <li>Calling another API from an Express route with <code>fetch()</code>: timeouts, <code>res.ok</code>, error pages,
+    and keeping API keys in <code>.env</code></li>
   <li>Server-side rendering (EJS, PHP) vs client-side rendering (fetch, React): trade-offs</li>
   <li>Lab: paging, comments from a second collection, and a reusable partial</li>
   <li>Node modules: <code>require()</code> vs. ES <code>import</code>, and built-in modules like <code>fs</code> and <code>http</code></li>
