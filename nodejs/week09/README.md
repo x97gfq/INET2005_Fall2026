@@ -43,6 +43,7 @@ Start small, then the whole thing:
 
 | What | Type | Command |
 |---|---|---|
+| **Warm-up 00**: code along from blank files: one query, as JSON (`/api/movies`) and as an EJS page (`/`), using the plain MongoDB driver | server | `docker compose exec node node week09/class1/00_warmup/app.js` (the folder you create in class) → http://localhost:3001 |
 | **Step 1**: the movie list as a server-rendered page (`res.render` instead of `res.json`) | server | `docker compose exec node node week09/class1/01_movies_page.js` → http://localhost:3001/movies |
 | **Step 2**: sessions with `express-session` + bcrypt (week 2's PHP login, in Node) | server | `docker compose exec node node week09/class1/02_sessions_login.js` |
 | **Activity 9**: Session Notepad (starter with TODOs) | server | `docker compose exec node node week09/class1/activity9/notes_app.js` |
@@ -98,6 +99,7 @@ The trivia assignment's AI call is the same shape: a `POST` with a JSON body and
 
 | For | Command |
 |---|---|
+| Warm-up 00 | `docker compose exec node node week09/class1/_solution/00_warmup/app.js` |
 | Activity 9: Session Notepad | `docker compose exec node node week09/class1/_solution/activity9_notes_app.js` |
 | Activity 10: mflix-lite (all four levels) | `docker compose exec node node week09/class2/_solution/activity10/app.js` |
 
@@ -136,7 +138,7 @@ week09/
 │   ├── 02_sessions_login.js         step 2: express-session + bcrypt login
 │   ├── views/                       the .ejs files for steps 1-2 (+ partials/)
 │   ├── activity9/                   Activity 9 starter: Session Notepad
-│   ├── _solution/                   Activity 9 answer key
+│   ├── _solution/                   answer keys: Activity 9, 00_warmup/ (app.js + views/, typed in class)
 │   └── mflix-web/                   week07/class2/mflix-api + pages
 │       ├── server.js                + view engine, urlencoded, express-session, 404 + error pages
 │       ├── routes/pages.js          NEW  list, detail, add/edit/delete, login, logout
