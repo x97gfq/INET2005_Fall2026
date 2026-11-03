@@ -14,6 +14,10 @@ app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, '..', 'vie
 app.use(express.urlencoded({ extended: true }));
 
 // TODO 1
+// secret signs the session ID cookie so tampering can be detected, 
+// resave: false skips saving sessions that haven't changed, and 
+// saveUninitialized: false holds off on saving a new session or 
+// sending its cookie until something is stored in it.
 app.use(
   session({
     secret: 'dev-secret',
