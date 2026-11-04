@@ -1,0 +1,56 @@
+# Movies API (week 9 class 2) requests: sign up, log in, read with the token, log out.
+# This is the conversation the web app (class2/00_warmup) has with the API: the same
+# requests, with a person clicking instead of you. Run them TOP TO BOTTOM.
+# VS Code: install the "REST Client" extension (humao.rest-client), then "Send Request".
+#
+# Start the server first:
+#   docker compose exec node node week09/class2/mflix-api/server.js
+
+@api = http://localhost:3002/api
+
+### 401 - reading needs a token now
+GET {{api}}/movies?year=1999&limit=3
+
+### 400 - every problem listed
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{ "username": "NO SPACES", "password": "short" }
+
+### 409 - taken (the demo users count)
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{ "username": "alice", "password": "correct-horse" }
+
+### 201 - sign up. Send it twice to see the 409
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{ "username": "dana", "password": "correct-horse" }
+
+### 200 - log in; named, so the next requests can reuse its token
+# @name dana
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "username": "dana", "password": "correct-horse" }
+
+### 200 - the same request as the first one, now with the token
+GET {{api}}/movies?year=1999&limit=3
+Authorization: Bearer {{dana.response.body.token}}
+
+### 403 - dana is a viewer: signing up doesn't get you write access
+POST {{api}}/movies
+Authorization: Bearer {{dana.response.body.token}}
+Content-Type: application/json
+
+{ "title": "Dana's Movie" }
+
+### 204 - log out: the API revokes this token
+POST {{api}}/auth/logout
+Authorization: Bearer {{dana.response.body.token}}
+
+### 401 - same token, after logout
+GET {{api}}/movies?year=1999&limit=3
+Authorization: Bearer {{dana.response.body.token}}

@@ -1,0 +1,22 @@
+<%# TODO Part 2: write the register form %>
+<%- include('partials/header', { title: 'Register' }) %>
+
+<h1 class="mb-3">Register</h1>
+
+<% if (error) { %>
+    <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<form method="POST" action="/register">
+    <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" id="username" name="username">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" id="password" name="password" type="password">
+    </div>
+    <button class="btn btn-primary">Register</button>
+</form>
+
+<%- include('partials/footer') %>

@@ -3,7 +3,7 @@
 | | Topic | Activities |
 |---|---|---|
 | **Class 1** | **mflix-web**: the week 7 movies API with a face. A server-rendered movie list, then sessions, then the full app: search, paging, detail, add/edit/delete forms using the API's own validation, a session login with roles, CSRF tokens | Activity 9: Session Notepad |
-| **Class 2** | **Calling another API, then wrap-up**: a route that `fetch()`es someone else's API (weather) and renders it with EJS, the same pattern with a key for the trivia assignment; then a review game, the stack debate (EJS vs React vs PHP), the weekly quiz, and a levelled lab | Activity 10: mflix-lite (lab) |
+| **Class 2** | **Warm-up: login through the API** (register, log in, log out, with the JWT kept in the session). **Calling another API, then wrap-up**: a route that `fetch()`es someone else's API (weather) and renders it with EJS, the same pattern with a key for the trivia assignment; then a review game, the stack debate (EJS vs React vs PHP), the weekly quiz, and a levelled lab | Activity 10: mflix-lite (lab) |
 
 Builds on [week 8](../week08/README.md) (EJS from zero). Slides: `slides/nodejs_week9.pptx`.
 
@@ -36,6 +36,7 @@ docker compose exec node node week06/class1/00_seed_mflix.js
 - Changed an **`.ejs`** file? Just refresh the browser. Changed a **`.js`** file? Ctrl+C and run it again.
 
 Every example runs on **port 3001**, so run one at a time (Ctrl+C before starting the next).
+The one exception is class 2's warm-up: two servers at once, its API on **3002**.
 
 ### Class 1: A face on mflix
 
@@ -78,12 +79,32 @@ Try these on purpose:
 
 ### Class 2: Calling another API, then wrap-up
 
+The warm-up needs **two terminals**, because the web app calls the API. Start the API first:
+
+```bash
+docker compose exec node node week09/class2/mflix-api/server.js      # Terminal 1: the API, port 3002
+docker compose exec node node week09/class2/00_warmup/app.js         # Terminal 2: the web app, port 3001
+```
+
 | What | Type | Command / file |
 |---|---|---|
+| **Warm-up 00**: code along from last class's warm-up: register, log in and log out through the API. The JWT stays in the session, and `/` `fetch()`es the movies with it instead of querying MongoDB | 2 servers | The two commands above → http://localhost:3001 |
+| The API's side of that conversation, request by request | VS Code | [`mflix-api/requests.http`](class2/mflix-api/requests.http) |
 | **Step 1**: weather from Open-Meteo (free, no key), fetched by the server and rendered with EJS | server | `docker compose exec node node week09/class2/01_weather.js` → http://localhost:3001/weather?city=Halifax |
 | Review sheet: the whole stack, EJS vs React, ten things to explain | read | [`class2/REVIEW.md`](class2/REVIEW.md) |
 | **Activity 10: mflix-lite** (the lab, in four levels) | read | [`class2/LAB.md`](class2/LAB.md) |
 | Activity 10 starter | server | `docker compose exec node node week09/class2/activity10/app.js` |
+
+`mflix-api` is `week07/class2/mflix-api` with two changes: `POST /api/auth/register` (new accounts
+are always viewers, in an `api_users` collection), and `GET /api/movies` now needs a token.
+Week 7's own folder is unchanged. Demo logins still work (alice, bob, carol), or register your own.
+
+While the warm-up runs, try these on purpose:
+
+- **DevTools > Application > Cookies**: one `connect.sid`, no JWT. **Network**: nothing goes to 3002. The token never reaches the browser.
+- Ctrl+C the API and refresh: a polite 502. Start it again and refresh: still logged in.
+- Ctrl+C the web app, restart it and refresh: logged out. Sessions live in its memory.
+- `docker compose exec -e JWT_EXPIRES_IN=30s node node week09/class2/mflix-api/server.js`, log in, wait 30 seconds and refresh: back to `/login`.
 
 While `01_weather.js` runs, try these on purpose:
 
@@ -101,6 +122,7 @@ The trivia assignment's AI call is the same shape: a `POST` with a JSON body and
 |---|---|
 | Warm-up 00 | `docker compose exec node node week09/class1/_solution/00_warmup/app.js` |
 | Activity 9: Session Notepad | `docker compose exec node node week09/class1/_solution/activity9_notes_app.js` |
+| Class 2 warm-up 00 (with `mflix-api` running) | `docker compose exec node node week09/class2/_solution/00_warmup/app.js` |
 | Activity 10: mflix-lite (all four levels) | `docker compose exec node node week09/class2/_solution/activity10/app.js` |
 
 ## How this connects
@@ -126,6 +148,9 @@ The trivia assignment's AI call is the same shape: a `POST` with a JSON body and
 - **The server can be a client too.** `01_weather.js` swaps `await Movie.find()` for
   `await fetch('https://api.open-meteo.com/...')`, and the route still ends in `res.render()`. Check `res.ok`
   (fetch doesn't throw on a 404 or 500), set a timeout, and keep API keys in `.env` on the server.
+- **A server can hold a token for you.** Class 2's warm-up keeps the week 7 JWT in the session: a
+  cookie between browser and web app, a bearer token between web app and API. `home.ejs` didn't
+  change at all when the data moved from `movies.find()` to `fetch()`.
 - **Later in the term: React.** It would call `/api/movies` with `fetch()` and a JWT, the same as
   `fetch.html`, and the API wouldn't change.
 
@@ -153,12 +178,14 @@ week09/
 │       ├── public/confirm.js        NEW  "Delete this movie?" (the CSP blocks inline JS)
 │       └── ...                      routes/auth.js, routes/movies.js, models/, openapi.yaml, requests.http,
 │                                    Postman collection, BEFORE_YOU_PUSH.md - as in week 7
-├── class2/                          calling another API, then wrap-up, review, lab
+├── class2/                          warm-up, calling another API, then wrap-up, review, lab
+│   ├── 00_warmup/                   warm-up starter: class 1's finished warm-up + TODOs, empty login/register views, README.md
+│   ├── mflix-api/                   week07/class2/mflix-api + register; reading needs a token (port 3002)
 │   ├── 01_weather.js                step 1: fetch() Open-Meteo in a route, render with EJS
 │   ├── views/                       weather.ejs (+ partials/)
 │   ├── REVIEW.md                    the stack top to bottom, EJS vs React, ten things to explain
 │   ├── LAB.md                       Activity 10 instructions (four levels)
 │   ├── activity10/                  Activity 10 starter: mflix-lite (+ models/Comment.js)
-│   └── _solution/activity10/        Activity 10 answer key
+│   └── _solution/                   answer keys: 00_warmup/, activity10/
 └── brightspace_summary.html         the week's description for Brightspace
 ```

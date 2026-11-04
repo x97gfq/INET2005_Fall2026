@@ -1,0 +1,25 @@
+<%# TODO Part 2: copy register.ejs, point it at /login, and add the green notice message %>
+<%- include('partials/header', { title: 'Log in' }) %>
+
+<h1 class="mb-3">Log in</h1>
+
+<% if (notice) { %>
+    <div class="alert alert-success"><%= notice %></div>
+<% } %>
+<% if (error) { %>
+    <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<form method="POST" action="/login">
+    <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-control" id="username" name="username">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" id="password" name="password" type="password">
+    </div>
+    <button class="btn btn-primary">Log in</button>
+</form>
+
+<%- include('partials/footer') %>
