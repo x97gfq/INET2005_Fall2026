@@ -21,10 +21,10 @@ startBtn.addEventListener('click', nextQuestion);
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault(); // no page reload
-  // TODO 1: validate: trim the input; empty? show a message and stop (don't send it)
-  // TODO 2: POST /answer with JSON { id: currentId, answer }
-  // TODO 3: show Correct! or the right answer, and the score the server sent back
-  // TODO 4: next question (a button, or after a short pause)
+  // TODO: validate: trim the input; empty? show a message and stop (don't send it)
+  //   POST /answer with JSON { id: currentId, answer }
+  //    show Correct! or the right answer, and the score the server sent back
+  //    next question (a button, or after a short pause)
   message.textContent = '(POST /answer is not built yet)';
 });
 
