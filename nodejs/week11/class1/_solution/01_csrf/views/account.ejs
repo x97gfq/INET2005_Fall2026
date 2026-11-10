@@ -1,0 +1,25 @@
+<%- include('partials/header', { title: 'Your account' }) %>
+
+<h1 class="mb-3">Hi, <%= username %></h1>
+
+<% if (saved) { %>
+    <div class="alert alert-success">Email saved.</div>
+<% } %>
+
+<p>Password reset links go to: <strong><%= email %></strong></p>
+
+<form method="POST" action="/email" class="mb-4">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label class="form-label" for="email">Change your email</label>
+    <div class="input-group">
+        <input class="form-control" id="email" name="email" type="email" value="<%= email %>">
+        <button class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+<form method="POST" action="/logout">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn btn-outline-secondary btn-sm">Log out</button>
+</form>
+
+<%- include('partials/footer') %>

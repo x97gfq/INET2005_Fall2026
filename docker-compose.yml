@@ -66,6 +66,32 @@ services:
       - db
       - mongo
 
+  # React front end (week 10 on): code lives in ./react, the dev server is Vite.
+  #   http://localhost:5173  the React app, while you run (in your own terminal)
+  #                          docker compose exec react npm run dev
+  # A separate container from "node" on purpose: the front end and the server are separate
+  # programs, and in production they're deployed separately too. The browser only ever talks
+  # to 5173; Vite passes /api/... on to the Express server at http://node:3001 (API_TARGET).
+  # It mounts ./react only, so nothing in here can read the server's .env files.
+  # It starts idle: you run npm inside it, like the node examples.
+  react:
+    image: node:22-alpine
+    container_name: inet-react
+    restart: unless-stopped
+    init: true
+    # Docker creates this folder (react/mflix-react) the first time, empty. In week 10 we
+    # scaffold the app into it: docker compose exec react npm create vite@9 . -- --template react
+    working_dir: /app/mflix-react
+    command: tail -f /dev/null
+    environment:
+      API_TARGET: http://node:3001
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./react:/app
+    depends_on:
+      - node
+
   # MongoDB: connect from Compass / VS Code with mongodb://localhost:27017
   # No username or password - local development only.
   mongo:

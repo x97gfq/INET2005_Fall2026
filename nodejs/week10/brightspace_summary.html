@@ -1,0 +1,51 @@
+<h2>Week 10: Assignment 4, Then React</h2>
+
+<p>The first class this week is an <strong>Assignment 4 work session</strong>: the trivia game, due Sunday. We start
+by making your first AI Chat Completions call from the terminal, with your key in <code>.env</code> (the same
+<code>fetch()</code> pattern as last week's Open-Meteo weather route, plus a key). Then we think the game through
+before building it: what happens in one round, where the correct answer and the score should live (on the server,
+never in the page), how to read the question and answer out of the AI's reply, how to keep only the last 100
+questions and avoid repeats, and how to check an answer fairly. The rest of the class is work time, with
+checkpoints and help in the room.</p>
+
+<p>On Friday we start <strong>React</strong>, from the ground up. You already know React from PROG 2700. What's new
+is everything around it: where it fits next to the API we've built since week 4, scaffolding a Vite app from the
+terminal, and running it in its own Docker container. Then the React itself, one step at a time: JSX, your first
+component, props, and the two hooks you'll use most, <code>useState</code> and <code>useEffect</code>.</p>
+
+<h3>What we'll cover</h3>
+<ul>
+  <li>A first AI call from Node: <code>fetch()</code>, a timeout, checking <code>res.ok</code>, the key in
+    <code>.env</code></li>
+  <li>Designing the trivia game: one round from Start to score, and what lives on the server vs in the page</li>
+  <li>Reading the question and answer out of the AI's reply, and what to do when it ignores your format</li>
+  <li>Keeping the last 100 questions, and two ways to avoid repeating one</li>
+  <li>Checking answers fairly (trim, lowercase, punctuation), keeping score, and client-side validation</li>
+  <li>The big picture: React, our Express server, the movies API and MongoDB</li>
+  <li>Client-side vs server-side rendering: what View Source tells you</li>
+  <li>Scaffolding a React app with Vite from the terminal, in its own container; hot reload and Vite's proxy</li>
+  <li>JSX, components and props; lists and keys</li>
+  <li>Hooks: <code>useState</code> (a like button, a live search) and <code>useEffect</code> (asking our server),
+    and the rules of hooks</li>
+</ul>
+
+<h3>Before class</h3>
+<ul>
+  <li>Pull the latest course code and start Docker: <code>git pull</code>, then <code>docker compose up -d</code>.
+    This creates a new container, <code>inet-react</code>, for Friday's React class (port 5173).</li>
+  <li>Bring your AI provider key and your Assignment 4 project to the first class. No key yet? There's a fake
+    provider you can use.</li>
+  <li>For Friday: Docker Desktop running, and <code>docker compose ps</code> showing <code>inet-react</code> as Up.</li>
+</ul>
+
+<h3>Due this week</h3>
+<ul>
+  <li><strong>Sunday, November 15, 11:59 pm</strong>: Assignment 4, the trivia game (AI + Node.js)</li>
+  <li><strong>Quiz 9</strong> on Brightspace: designing the trivia game, and React basics</li>
+</ul>
+
+<h3>Next week</h3>
+<p>The React app talks to our API: register, log in and log out, with the login kept in a session the browser
+can't read, and the real movies from MongoDB. Then why our server insists on a special header (cross-site request
+forgery), an AI call from React with the key kept on the server, and real-time updates with
+<strong>Socket.IO</strong>.</p>

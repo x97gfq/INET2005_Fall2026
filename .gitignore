@@ -24,3 +24,8 @@ nodejs/week08/wk08-quiz-ejs-front-end.csv
 
 # trivia assignment: the Brightspace text and the sample solution stay local
 nodejs/assignment-trivia/
+
+# week 10: the React app you scaffold in class is yours (react/_solution has the answer keys)
+react/mflix-react/
+# weekly quiz files for Brightspace stay local
+nodejs/week10/wk10-quiz-*.csv

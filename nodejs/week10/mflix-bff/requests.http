@@ -1,0 +1,53 @@
+# mflix-bff requests: the same conversation the React app has (week 11), without React.
+# Log in, read the movies, log out. The AI requests are for week 11. Run them TOP TO BOTTOM.
+# VS Code: the "REST Client" extension (humao.rest-client), then "Send Request".
+# REST Client keeps cookies between requests, like a browser: after the login, the session
+# cookie (mflix.sid) goes along by itself. That's the whole point of a session.
+#
+# Start both servers first (two terminals):
+#   docker compose exec node node week09/class2/mflix-api/server.js
+#   docker compose exec node node week10/mflix-bff/server.js
+
+@bff = http://localhost:3001/api
+@matrix = 573a139bf29313caabcf3d23
+
+### 200 - who am I? { "username": null } until you log in
+GET {{bff}}/session
+
+### 403 - no X-Requested-With header: mflix-bff refuses it (week 11 explains why: CSRF)
+POST {{bff}}/login
+Content-Type: application/json
+
+{ "username": "bob", "password": "letmein" }
+
+### 200 - log in. The response sets the session cookie. The JWT stays on the server
+POST {{bff}}/login
+Content-Type: application/json
+X-Requested-With: mflix-react
+
+{ "username": "bob", "password": "letmein" }
+
+### 200 - same as the first request: now the cookie says who you are
+GET {{bff}}/session
+
+### 200 - the movies, fetched by mflix-bff with the JWT from your session
+GET {{bff}}/movies?title=matrix
+
+### WEEK 11 - ask the AI. Until the route is written: 501. No .env yet: 503 with a hint
+POST {{bff}}/movies/{{matrix}}/similar
+X-Requested-With: mflix-react
+
+### 400 - not a movie id. The API said no before any AI call was made
+POST {{bff}}/movies/nope/similar
+X-Requested-With: mflix-react
+
+### 429 - send the AI request again quickly: the 6th in a minute is refused
+POST {{bff}}/movies/{{matrix}}/similar
+X-Requested-With: mflix-react
+
+### 200 - log out: the API revokes the JWT, mflix-bff destroys the session
+POST {{bff}}/logout
+X-Requested-With: mflix-react
+
+### 401 - the cookie is gone, so no more movies (or AI)
+GET {{bff}}/movies?title=matrix

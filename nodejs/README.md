@@ -87,6 +87,7 @@ notification is lost. We tested it: `--watch` never restarts.
 | [`week07/`](week07/README.md) | Class 1: middleware, `express.Router`, validation + error handler, morgan + winston logging, JWT, Activity 6. Class 2: the week 6 movies API secured (validation middleware, logging, JWT login with roles, helmet, login rate limit, logout), Activity 7 (token lifecycle in Bruno), loose ends before you push, a complete AI prompt |
 | [`week08/`](week08/README.md) | A face on the API with EJS. Class 1: EJS from zero in five follow-along steps (hello world, data + escaping, loops, partials, forms), Activity 8 |
 | [`week09/`](week09/README.md) | A face on mflix. Class 1: mflix-web, the week 7 API with server-rendered pages, a session login, CRUD forms and CSRF tokens, Activity 9. Class 2: review, the EJS vs React stack debate, lab (Activity 10) |
+| [`week10/`](week10/README.md) | Class 1: an Assignment 4 work session (a first AI call from the terminal, then designing the trivia game: where answers and the score live, parsing, the last 100, fair answers). Class 2: React from the ground up in its own `react` container: JSX, components, props, `useState`, `useEffect` |
 
 Each activity's answer key is in a `_solution` folder next to it.
 
