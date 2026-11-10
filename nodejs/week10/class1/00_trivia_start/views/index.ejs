@@ -9,25 +9,6 @@
     <div class="container my-5" style="max-width: 40rem">
         <%# The welcome screen. TODO: make it yours %>
         <h1 class="mb-3">Trivia</h1>
-        <p class="lead">Questions from an AI. How many can you get right?</p>
-        <button id="start" class="btn btn-primary mb-4">Start Game</button>
-
-        <%# The question area: game.js fills it in %>
-        <div id="game" hidden>
-            <p id="question" class="fs-4"></p>
-
-            <%# The answer form. TODO: required, maxlength, and a message next to the box %>
-            <form id="answer-form" class="d-flex gap-2 mb-2">
-                <input id="answer" class="form-control" autocomplete="off">
-                <button class="btn btn-success">Submit</button>
-            </form>
-            <p id="message" class="mb-4"></p>
-        </div>
-
-        <%# The score: shown from what the server says %>
-        <p>Score: <span id="score">0 / 0</span></p>
     </div>
-    <%# In a file, not inline: if you add helmet, its CSP blocks inline scripts %>
-    <script src="/game.js"></script>
 </body>
 </html>
