@@ -29,3 +29,6 @@ nodejs/assignment-trivia/
 react/mflix-react/
 # weekly quiz files for Brightspace stay local
 nodejs/week10/wk10-quiz-*.csv
+temp/
+# week 10 class 1: the finished trivia starter (instructor copy, students build their own)
+nodejs/week10/class1/00_trivia_start/_solution/
