@@ -2,7 +2,7 @@
 // The APP half is the React app in react/mflix-react. Two programs, two folders, two .env files;
 // the only thing they share is the API contract (README.md, and requests.http to try it).
 //
-// ANSWER KEY: the finished POST /api/movies. In class we type it into week11/api/server.js.
+// ANSWER KEY: the same as week11/api/server.js (students now get POST complete; class 1 builds the React form).
 // Run:  docker compose exec node node week11/_solution/api/server.js   -> http://localhost:3001/api/movies
 
 const path = require('path');

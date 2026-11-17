@@ -2,8 +2,7 @@
 // The APP half is the React app in react/mflix-react. Two programs, two folders, two .env files;
 // the only thing they share is the API contract (README.md, and requests.http to try it).
 //
-// Class 1: GET /api/movies works already. We type POST /api/movies (search for TODO).
-// Answer key: week11/_solution/api/server.js
+// Class 1: complete. GET and POST /api/movies both work; we read them, then build the React form.
 // Run:  docker compose exec node node week11/api/server.js   -> http://localhost:3001/api/movies
 
 const path = require('path');
@@ -69,13 +68,16 @@ function validateMovie(body) {
 
 // POST /api/movies  { title, year, genres } -> 201 the new movie (with its _id)
 //                                            -> 400 { errors: { field: message } }
-// TODO class 1: replace this stub.
-//   1. const { errors, movie } = validateMovie(req.body || {});
-//   2. Any errors? Send 400 and { errors }, and stop (return).
-//   3. Insert the movie with insertOne.
-//   4. Send 201 and the movie, with _id set to result.insertedId.
 app.post('/api/movies', async (req, res) => {
-  res.status(501).json({ error: 'Not built yet' });
+  // 1. Check first. Any errors: 400, and return so nothing else runs.
+  const { errors, movie } = validateMovie(req.body || {});
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ errors });
+  }
+  // 2. insertOne: MongoDB adds the _id.
+  const result = await movies.insertOne(movie);
+  // 3. 201 Created, with the movie the app can show right away.
+  res.status(201).json({ _id: result.insertedId, ...movie });
 });
 
 // Anything else under /api: JSON, not Express's HTML page

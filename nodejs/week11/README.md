@@ -2,7 +2,7 @@
 
 | | Topic | You build |
 |---|---|---|
-| **Class 1** | **The API and the app, together**: the MERN stack end to end, API and APP as two projects, the API contract, then **POST**: a React form that validates, sends, and handles the reply | `POST /api/movies` in `week11/api/server.js`, and `AddMovieForm` in `react/mflix-react` |
+| **Class 1** | **The API and the app, together**: the MERN stack end to end, API and APP as two projects, the API contract, then **POST**: a React form that validates, sends, and handles the reply | `AddMovieForm` in `react/mflix-react` (the API in `week11/api` is complete: GET and POST) |
 | **Class 2** | **Finish the stack**: every answer the API can give (201, 400, 502, none), validating twice, `.env` across two projects, the contract between the halves. Then the **open floor**: you pick the topics | Your final project's shape: `api/` and `app/` |
 
 Builds on [week 10](../week10/README.md): the React app in `react/mflix-react` keeps fetching `/api/movies`; this
@@ -51,7 +51,7 @@ Try every row with [`api/requests.http`](api/requests.http) (VS Code REST Client
 
 ```
 nodejs/week11/
-├── api/                    the API half (class 1 types POST: search server.js for TODO)
+├── api/                    the API half, complete (GET and POST): class 1 reads it, then builds the React form
 │   ├── package.json        what it needs on its own: express, mongodb, dotenv
 │   ├── .env.example        copy to .env (git-ignored)
 │   ├── requests.http       the contract, runnable
@@ -60,8 +60,8 @@ nodejs/week11/
 react/_solution/week11/     the app half's answer key: week 10's app + AddMovieForm.jsx
 ```
 
-Fell behind? Copy `week11/_solution/api/server.js` over `week11/api/server.js`, and copy
-`react/_solution/week11/src` over `react/mflix-react/src`.
+Fell behind? Copy `react/_solution/week11/src` over `react/mflix-react/src`. The API needs nothing:
+`week11/api/server.js` is already the finished one.
 
 ## What happens when you click Add
 
