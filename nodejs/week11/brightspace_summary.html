@@ -1,0 +1,55 @@
+<h2>Week 11: Full-Stack MERN</h2>
+
+<p>This week everything from the term comes together in one stack: <strong>M</strong>ongoDB, <strong>E</strong>xpress,
+<strong>R</strong>eact and <strong>N</strong>ode. A MERN app is two programs that agree on a contract: an
+<strong>API</strong> that answers with JSON, and a React <strong>app</strong> that asks for data and shows it. You
+already know the pattern (ask for data, then build the page from it) from <code>fetch()</code> last year and from PHP
+and EJS this year. What's new is that the two halves are two separate projects, each with its own folder,
+<code>package.json</code> and <code>.env</code>.</p>
+
+<p>In the first class the API is ready for you (<code>nodejs/week11/api</code>), and you build the app half from
+nothing: scaffold a new React app with Vite in <code>react/app</code>, set up Vite's proxy to the API, then fetch
+the movies with <code>useEffect</code> and show them in a list.</p>
+
+<p>In the second class we keep building that same app, and use the rest of what the API can do. We start with
+<strong>UML diagrams</strong> of where we are and what we're adding. Then a <strong>search form</strong> that sends
+the search to the API, a <strong>DELETE route</strong> you add to the API and a <strong>Delete button</strong> on
+every movie, and an <strong>Add a movie</strong> form in a Bootstrap modal (the code is given; we read it together).
+We finish with what's still missing: right now anyone can add or delete movies, so next class the API learns who
+you are.</p>
+
+<h3>What we'll cover</h3>
+<ul>
+  <li>The MERN stack end to end: what runs in the browser, in Vite, in Express and in MongoDB</li>
+  <li>API and APP as two projects: separate folders, deployed on their own, joined only by the API contract</li>
+  <li>Scaffolding a React app with Vite in its own container; <code>vite.config.js</code> (host, polling, the
+    <code>/api</code> proxy)</li>
+  <li><code>useEffect</code> + <code>fetch()</code>, checking <code>res.ok</code>, and rendering a list with keys</li>
+  <li>UML deployment, class and sequence diagrams of our app</li>
+  <li>A search form: controlled inputs, <code>onSubmit</code>, the dependency array, and
+    <code>encodeURIComponent</code></li>
+  <li><code>DELETE /api/movies/:id</code>: route parameters, <code>ObjectId.isValid</code>, <code>deleteOne</code>,
+    and the status codes 204, 400 and 404</li>
+  <li>Updating state the React way: a new array with <code>filter</code> and the spread operator</li>
+  <li>A Bootstrap modal controlled by React state, and handling every answer from the API (201, 400, 502, no answer)</li>
+  <li>Why validation and security checks belong on the server, not only in the browser</li>
+</ul>
+
+<h3>Before class</h3>
+<ul>
+  <li>Pull the latest course code and start Docker: <code>git pull</code>, then <code>docker compose up -d</code>.</li>
+  <li>For the second class, keep the <code>react/app</code> you made in the first class. Missed it? The answer key is
+    in <code>react/_solution/week11_app</code>.</li>
+</ul>
+
+<h3>Due this week</h3>
+<ul>
+  <li><strong>Quiz 10</strong> on Brightspace: the ten pop quizzes from this week's classes</li>
+</ul>
+
+<p><strong>Friday, November 20</strong> is a College Learning Day: the college is closed and there are no classes.</p>
+
+<h3>Next week</h3>
+<p>A secure login for our MERN app. Users are stored with hashed passwords, the API hands out a signed token when you
+log in, and every add or delete must carry it in an <code>Authorization: Bearer</code> header. Without a valid token
+the API answers 401, whatever the app shows.</p>

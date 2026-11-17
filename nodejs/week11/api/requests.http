@@ -7,7 +7,8 @@ GET http://localhost:3001/api/movies
 ### 2. Search by title: 200, only titles containing "star"
 GET http://localhost:3001/api/movies?title=star
 
-### 3. Add a movie: 201 and the movie with its new _id
+### 3. Add a movie: 201 and the movie with its new _id (request 7 deletes it)
+# @name add
 POST http://localhost:3001/api/movies
 Content-Type: application/json
 
@@ -29,3 +30,14 @@ POST http://localhost:3001/api/movies
 Content-Type: application/json
 
 { title: oops }
+
+### ---- Class 2: DELETE (add the route first) ----
+
+### 7. Delete the movie request 3 added: 204, no body. Send it again: 404
+DELETE http://localhost:3001/api/movies/{{add.response.body._id}}
+
+### 8. Not an ObjectId at all: 400 { error: "That is not a valid movie id." }
+DELETE http://localhost:3001/api/movies/banana
+
+### 9. A valid id that no movie has: 404 { error: "No movie with that id." }
+DELETE http://localhost:3001/api/movies/000000000000000000000000

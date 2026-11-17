@@ -2,7 +2,7 @@
 // The APP half is the React app in react/mflix-react. Two programs, two folders, two .env files;
 // the only thing they share is the API contract (README.md, and requests.http to try it).
 //
-// ANSWER KEY: the same as week11/api/server.js (students now get POST complete; class 1 builds the React form).
+// ANSWER KEY: week11/api/server.js plus class 2's DELETE /api/movies/:id.
 // Run:  docker compose exec node node week11/_solution/api/server.js   -> http://localhost:3001/api/movies
 
 const path = require('path');
@@ -10,7 +10,7 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env'), quiet: true });
 
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // Settings: from .env, or from docker-compose.yml (MONGO_URL), or a default.
 const PORT = Number(process.env.PORT) || 3001;
@@ -75,6 +75,25 @@ app.post('/api/movies', async (req, res) => {
   }
   const result = await movies.insertOne(movie);
   res.status(201).json({ _id: result.insertedId, ...movie });
+});
+
+// DELETE /api/movies/:id -> 204 (deleted, no body)
+//                        -> 400 { error } when :id can't be a MongoDB _id
+//                        -> 404 { error } when no movie has that _id
+// Week 11 class 2. Open to anyone for now: next class, a bearer token guards it.
+app.delete('/api/movies/:id', async (req, res) => {
+  // 1. The id comes from the URL. Check it can be an ObjectId, or new ObjectId() throws (a 500).
+  const { id } = req.params;
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'That is not a valid movie id.' });
+  }
+  // 2. deleteOne by _id. deletedCount says whether anything matched.
+  const result = await movies.deleteOne({ _id: new ObjectId(id) });
+  if (result.deletedCount === 0) {
+    return res.status(404).json({ error: 'No movie with that id.' });
+  }
+  // 3. 204 No Content: it worked, and there is nothing to send back.
+  res.status(204).end();
 });
 
 // Anything else under /api: JSON, not Express's HTML page

@@ -3,7 +3,7 @@
 | | Topic | You build |
 |---|---|---|
 | **Class 1** | **The API and the app**: the pattern you know (fetch, then show), the MERN stack, API and APP as two projects. The API in `week11/api` is done; you scaffold a new React app and show its movies | A new React app in `react/app` that fetches `GET /api/movies` and lists the movies |
-| **Class 2** | **Finish the stack**: every answer the API can give (201, 400, 502, none), validating twice, `.env` across two projects, the contract between the halves. Then the **open floor**: you pick the topics | Your final project's shape: `api/` and `app/` |
+| **Class 2** | **Search, delete, add**: UML diagrams of where we start and what we add, a search form (`GET ?title=`), a `DELETE` route in the API and a Delete button in the app, and an Add modal (Bootstrap, the code is given). Then what's still missing: a login and a bearer token, next class | The same `react/app`, now with search, delete and add |
 
 Builds on [week 10](../week10/README.md). The same pattern as `fetch()` last year and PHP / EJS this year: ask for
 data, then build the page from it. Now the two halves are two projects: the API in `nodejs/week11/api`, the app in `react/app`.
@@ -55,35 +55,58 @@ Check: http://localhost:5173 lists 20 movies. Stop the API and reload: "The API 
 | `POST /api/movies` | `{ title, year, genres }` | `201` the new movie, with its `_id` |
 | `POST /api/movies`, rules broken | `{ "title": "   ", "year": 1700 }` | `400` `{ errors: { title, year } }` |
 | `POST`, body isn't JSON | `{ title: oops }` | `400` `{ error: "The body is not valid JSON." }` |
+| `DELETE /api/movies/:id` (class 2) | - | `204`, no body |
+| `DELETE /api/movies/banana` | - | `400` `{ error: "That is not a valid movie id." }` |
+| `DELETE`, valid id but no such movie | - | `404` `{ error: "No movie with that id." }` |
 | anything else under `/api` | - | `404` `{ error: "Not found" }` |
 
 Rules: `title` required (200 characters max); `year` a whole number from 1888 to five years from now; `genres`
 optional, up to 5 short words. Send `Content-Type: application/json`, or Express won't read the body (you get the 400).
 Try every row with [`api/requests.http`](api/requests.http) (VS Code REST Client).
 
+## Class 2: search, delete, add
+
+Same two terminals as class 1. Work in **your** `react/app`; the answer key is
+[`react/_solution/week11_class2`](../../react/_solution/week11_class2).
+
+1. **Bootstrap**: add Bootstrap's CSS `<link>` to `react/app/index.html`, delete `import './index.css'` from `src/main.jsx`.
+2. **Search**: `query` (the box) and `search` (the request) in state, `fetch('/api/movies?title=' + encodeURIComponent(search))`,
+   `useEffect(..., [search])`, and a `<form onSubmit>`. No API change.
+3. **DELETE route**: replace the TODO in `api/server.js` (`ObjectId.isValid`, `deleteOne`, 204/400/404), then
+   **restart the API** (Ctrl+C, run it again). Test with `requests.http` requests 7-9.
+4. **Delete button**: `handleDelete(movie)` with `fetch(..., { method: 'DELETE' })`, then `movies.filter(...)`.
+5. **Add modal (given)**: copy `AddMovieModal.jsx` into `react/app/src`, then wire it into `App.jsx`:
+
+```powershell
+Copy-Item react\_solution\week11_class2\src\AddMovieModal.jsx react\app\src\
+```
+
+Delete really removes the movie from your `sample_mflix`. Practise on movies you added (they're on top).
+
 ## Files
 
 ```
 nodejs/week11/
-├── api/                    the API half, complete (GET and POST): class 1 uses GET
+├── api/                    the API half: GET and POST complete, DELETE is class 2's TODO
 │   ├── package.json        what it needs on its own: express, mongodb, dotenv
 │   ├── .env.example        copy to .env (git-ignored)
 │   ├── requests.http       the contract, runnable
 │   └── server.js
-└── _solution/api/          answer key
+└── _solution/api/          answer key (with DELETE)
 react/app/                  class 1: the app you scaffold (git-ignored)
 react/_solution/week11_app/ class 1's answer key: vite.config.js + src/App.jsx
-react/_solution/week11/     class 2's form: week 10's app + AddMovieForm.jsx
+react/_solution/week11_class2/ class 2's answer key: search, Delete, AddMovieModal.jsx (given)
 ```
 
-Fell behind? Copy `react/_solution/week11_app/vite.config.js` and `src/App.jsx` into `react/app`. The API needs
-nothing: `week11/api/server.js` is already the finished one.
+Fell behind? Copy `react/_solution/week11_app/vite.config.js` and `src/App.jsx` into `react/app` (class 1), or
+`index.html` and `src/` from `react/_solution/week11_class2` (class 2). For the API, copy `_solution/api/server.js`
+over `api/server.js`.
 
-## What happens when you click Add
+## What happens when you click Save (the Add modal)
 
 | What happened | `fetch()` gives | The form shows |
 |---|---|---|
-| Saved | status 201, the movie | a new row on top |
+| Saved | status 201, the movie | the modal closes, a new row on top |
 | Rules broken | status 400, `{ errors }` | each message under its field |
 | The API isn't running | status 502 from Vite's proxy, empty body | "The server answered 502. Is the API running?" |
 | No answer at all | `fetch()` throws | "Could not reach the server." |
@@ -96,9 +119,9 @@ Everything the API inserts is labelled `addedBy: 'week11'`:
 docker compose exec mongo mongosh sample_mflix --eval "db.movies.deleteMany({ addedBy: 'week11' })"
 ```
 
-## Open floor (class 2)
+## Next class: log in, then a bearer token
 
-Vote in the Teams chat: edit and delete (PUT/DELETE), deploying both halves, logging in to a MERN app, more pages
-(React Router), testing the API, or your final project. Prepared for "logging in": the CSRF demo in
-`class1/01_csrf/` (victim `docker compose exec node node week11/class1/01_csrf/app.js`, attacker `.../evil.js`;
-both use ports 3001/3002, so stop the API first).
+Right now anyone who can reach the API can add or delete any movie (`requests.http` does it with no app at all).
+Next class: a `users` collection with hashed passwords, `POST /api/login` that answers with a signed token, and
+`requireAuth` middleware that checks `Authorization: Bearer <token>` before `POST` and `DELETE` and answers `401`
+without one. `GET` stays public. The CSRF demo in `class1/01_csrf/` is still there if we compare tokens with cookies.

@@ -2,7 +2,7 @@
 // The APP half is the React app in react/mflix-react. Two programs, two folders, two .env files;
 // the only thing they share is the API contract (README.md, and requests.http to try it).
 //
-// Class 1: complete. GET and POST /api/movies both work; we read them, then build the React form.
+// Class 1: GET and POST /api/movies are complete. Class 2: you add DELETE /api/movies/:id (the TODO below).
 // Run:  docker compose exec node node week11/api/server.js   -> http://localhost:3001/api/movies
 
 const path = require('path');
@@ -79,6 +79,15 @@ app.post('/api/movies', async (req, res) => {
   // 3. 201 Created, with the movie the app can show right away.
   res.status(201).json({ _id: result.insertedId, ...movie });
 });
+
+// TODO (class 2): DELETE /api/movies/:id
+//   -> 204 (deleted, no body)   -> 400 { error } bad id   -> 404 { error } no such movie
+//   1. Change the require above to:  const { MongoClient, ObjectId } = require('mongodb');
+//   2. app.delete('/api/movies/:id', async (req, res) => { ... })
+//      - const { id } = req.params;   if (!ObjectId.isValid(id)) -> 400
+//      - const result = await movies.deleteOne({ _id: new ObjectId(id) });
+//      - result.deletedCount === 0 -> 404,  otherwise res.status(204).end()
+//   It must go ABOVE the 404 handler below, or that handler answers first.
 
 // Anything else under /api: JSON, not Express's HTML page
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
