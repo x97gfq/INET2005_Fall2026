@@ -1,5 +1,6 @@
 // Six real rows from sample_mflix (1999, best rated first), typed in by hand for now.
-// Week 11 swaps this file for a fetch() to /api/movies. The shape is the same as the API's.
+// Step 8 swaps this file for fetch('/api/movies') (week 9's warm-up). The shape is the same as the API's.
+// App.jsx no longer imports it at the end of class; it stays here so you can copy it in step 5.
 export const sampleMovies = [
   { _id: '573a139bf29313caabcf4dd0', title: 'Fight Club', year: 1999, genres: ['Drama'], imdb: { rating: 8.9 } },
   { _id: '573a139bf29313caabcf3d23', title: 'The Matrix', year: 1999, genres: ['Action', 'Sci-Fi'], imdb: { rating: 8.7 } },
