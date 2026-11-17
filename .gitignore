@@ -27,8 +27,11 @@ nodejs/assignment-trivia/
 
 # week 10: the React app you scaffold in class is yours (react/_solution has the answer keys)
 react/mflix-react/
+# week 11 class 1: the app you scaffold is yours (answer key: react/_solution/week11_app)
+react/app/
 # weekly quiz files for Brightspace stay local
 nodejs/week10/wk10-quiz-*.csv
+nodejs/week11/wk11-quiz-*.csv
 temp/
 # week 10 class 1: the finished trivia starter (instructor copy, students build their own)
 nodejs/week10/class1/00_trivia_start/_solution/

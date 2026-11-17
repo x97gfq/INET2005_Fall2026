@@ -11,7 +11,8 @@ checkpoints and help in the room.</p>
 <p>On Friday we start <strong>React</strong>, from the ground up. You already know React from PROG 2700. What's new
 is everything around it: where it fits next to the API we've built since week 4, scaffolding a Vite app from the
 terminal, and running it in its own Docker container. Then the React itself, one step at a time: JSX, your first
-component, props, and the two hooks you'll use most, <code>useState</code> and <code>useEffect</code>.</p>
+component, props, and the two hooks you'll use most, <code>useState</code> and <code>useEffect</code>. We finish
+by swapping the hand-typed movies for real ones, fetched from the server you wrote in week 9's first warm-up.</p>
 
 <h3>What we'll cover</h3>
 <ul>
@@ -21,12 +22,12 @@ component, props, and the two hooks you'll use most, <code>useState</code> and <
   <li>Reading the question and answer out of the AI's reply, and what to do when it ignores your format</li>
   <li>Keeping the last 100 questions, and two ways to avoid repeating one</li>
   <li>Checking answers fairly (trim, lowercase, punctuation), keeping score, and client-side validation</li>
-  <li>The big picture: React, our Express server, the movies API and MongoDB</li>
+  <li>The big picture: React in the browser, our Express server, and MongoDB</li>
   <li>Client-side vs server-side rendering: what View Source tells you</li>
   <li>Scaffolding a React app with Vite from the terminal, in its own container; hot reload and Vite's proxy</li>
   <li>JSX, components and props; lists and keys</li>
-  <li>Hooks: <code>useState</code> (a like button, a live search) and <code>useEffect</code> (asking our server),
-    and the rules of hooks</li>
+  <li>Hooks: <code>useState</code> (a like button, a live search) and <code>useEffect</code> (fetching the movies
+    from our server, with a "Loading..." state), and the rules of hooks</li>
 </ul>
 
 <h3>Before class</h3>
@@ -45,7 +46,7 @@ component, props, and the two hooks you'll use most, <code>useState</code> and <
 </ul>
 
 <h3>Next week</h3>
-<p>The React app talks to our API: register, log in and log out, with the login kept in a session the browser
-can't read, and the real movies from MongoDB. Then why our server insists on a special header (cross-site request
+<p>React logs in. A new server goes between React and our movies API: it keeps your login in a session the
+browser can't read. Through it, React registers, logs in and out, and searches all the movies in MongoDB. Then why our server insists on a special header (cross-site request
 forgery), an AI call from React with the key kept on the server, and real-time updates with
 <strong>Socket.IO</strong>.</p>

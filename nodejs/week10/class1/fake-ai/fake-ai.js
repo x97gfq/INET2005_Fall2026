@@ -1,8 +1,8 @@
 // A pretend AI provider, for when you don't have a key yet (or the Wi-Fi is down).
-// It speaks just enough of the Chat Completions format for mflix-bff: same URL, same JSON.
+// It speaks just enough of the Chat Completions format for ask.js and your trivia server: same URL, same JSON.
 // Run:  docker compose exec node node week10/class1/fake-ai/fake-ai.js     (port 3003)
-// Then in mflix-bff/.env:  AI_BASE_URL=http://localhost:3003/v1  AI_API_KEY=anything  AI_MODEL=fake
-// (Restart mflix-bff after changing .env: it reads the file once, when it starts.)
+// Then in 00_trivia_start/.env:  AI_BASE_URL=http://localhost:3003/v1  AI_API_KEY=anything  AI_MODEL=fake
+// (Restart your server after changing .env: it reads the file once, when it starts.)
 
 const express = require('express');
 const app = express();

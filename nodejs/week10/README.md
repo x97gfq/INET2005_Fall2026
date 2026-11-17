@@ -6,13 +6,13 @@
 | **Class 2** (Friday) | **React, from the ground up**: the big picture of our API, React in its own container, JSX, a first component, props, `useState`, `useEffect` | `react/mflix-react`: hard-coded movies, a like button per row, a live search, one real request |
 
 Builds on [week 9](../week09/README.md): its Open-Meteo route is the shape of Assignment 4's AI call, and its
-class 2 warm-up (the JWT kept in the session) is the server behind React (`mflix-bff`).
+class 1 warm-up (one query, `/api/movies` as JSON) is the server React asks for its first real data.
 Slides: `slides/nodejs_week10.pptx`.
 
 **Assignment 4 (trivia) due Sunday, November 15, 11:59 pm.**
 
-**Week 11:** the React app logs in through our API (register, log in, log out, the real movies), CSRF, an AI call
-from React, then Socket.IO. The CSRF demo is already in [`../week11/`](../week11/).
+**Week 11:** Full-Stack MERN. The React app gets our own API behind it, and a form that POSTs new movies to it.
+See [`../week11/`](../week11/).
 
 ## Before class
 
@@ -122,16 +122,25 @@ Edit `react/mflix-react/vite.config.js` (on the slides) so it listens for Docker
 passes `/api` to our server. Then:
 
 ```bash
-docker compose exec react npm run dev                       # Terminal 1: React, http://localhost:5173
-docker compose exec node node week10/mflix-bff/server.js    # Terminal 2 (for the last step): mflix-bff, 3001
+docker compose exec node node week09/class1/_solution/00_warmup/app.js  # Terminal 1: the movies, 3001 (needed for the last step)
+docker compose exec react npm run dev                                   # Terminal 2: React, http://localhost:5173
 ```
 
-In order: `Welcome` (a first component with a prop), `MovieTable` (props, a list, keys), `LikeButton`
-(`useState`, one per row), a live search (`useState` again), and a `useEffect` that asks `/api/session` who we
-are ("Not logged in": logging in is week 11).
+**One server on 3001.** Your trivia game (`00_trivia_start/server.js`) uses 3001 too: Ctrl+C it first, or the
+warm-up stops with `EADDRINUSE`. The slides have a one-page cheat sheet of these commands near the end.
+
+In order: `Welcome` (a first component with a prop), `MovieTable` (props, a list, keys) on six hand-typed movies,
+`LikeButton` (`useState`, one per row), a live search (`useState` again), and a `useEffect` that swaps the
+hand-typed movies for real ones: `fetch('/api/movies')` from week 9 class 1's warm-up, the server we typed from a
+blank file. Same JSON shape, so `MovieTable` doesn't change; the search still works.
+
+**No login here.** That warm-up reads MongoDB directly: no session, no JWT bearer token, anyone can read
+`/api/movies`. Week 9 class 2's warm-up is the one that logged in through the API and kept the JWT in the session;
+React gets that version in week 11.
 
 - **The React app**: just save. The page updates by itself (hot reload). Ctrl+C only to stop it.
-- **mflix-bff**: a Node server like the others: Ctrl+C and run again after a change.
+- **The warm-up server**: a Node server like the others: Ctrl+C and run again after a change. Stop it and reload:
+  the page stays on "Loading..." (handling errors properly is week 11).
 
 Answer key: [`react/_solution/week10`](../../react/_solution/week10/). How to run an answer key, and fixes for
 common problems, are in [`react/README.md`](../../react/README.md).
@@ -146,8 +155,9 @@ common problems, are in [`react/README.md`](../../react/README.md).
   on the server. View Source tells you which one a page uses.
 - **Components and props are EJS's partials and their data.** `<MovieTable movies={...} />` is
   `include('row', { m })` in a new form. State and effects are the React-only parts.
-- **The same API as week 9's EJS pages.** React (5173) talks to mflix-bff (3001), which talks to mflix-api (3002),
-  which talks to MongoDB. In week 11 React logs in through it.
+- **The same data as week 9's EJS page.** The warm-up had one query and two endings: `res.render` for the EJS page
+  and `res.json` for `/api/movies`. React uses the JSON ending: React (5173) -> Express (3001) -> MongoDB. In week 11
+  a server that keeps the login goes in the middle.
 
 ## Files
 
@@ -157,18 +167,13 @@ react/
 ├── README.md                    the commands, running an answer key, troubleshooting
 ├── mflix-react/                 YOURS: created empty by Docker, scaffolded on Friday (git-ignored)
 └── _solution/
-    ├── week10/                  Welcome, MovieTable, LikeButton, sampleMovies, search, /api/session
-    ├── week11_login/            week 11: + api.js, AuthForm, MovieList (the real movies), Log out
-    └── week11_ai/               week 11: + the More like this AI button
+    ├── week10/                  Welcome, MovieTable, LikeButton, sampleMovies, search, fetch('/api/movies')
+    └── week11/                  week 11: + AddMovieForm (POST to our own API)
 nodejs/week10/
 ├── class1/
 │   ├── 00_trivia_start/         ask.js + .env.example: the first AI call; server.js, views/, public/: the game, stubbed out
 │   └── fake-ai/fake-ai.js       a pretend AI provider on 3003: answers trivia in the assignment's format
-├── mflix-bff/                   the server behind React (port 3001)
-│   ├── server.js                week 9's warm-up as JSON (React logs in through it in week 11)
-│   ├── requests.http            the same conversation as the React app, from VS Code
-│   └── .env.example             SESSION_SECRET (and the AI_ values, week 11)
-├── _solution/mflix-bff/         server.js with the AI route written (week 11's answer key)
+├── class2_info.pdf              Friday's section of this README as a one-page handout
 └── brightspace_summary.html     the week's description for Brightspace
-nodejs/week11/class1/01_csrf/    the CSRF demo (week 11), with its answer key in week11/class1/_solution/
+nodejs/week11/api/               week 11's API (GET and POST /api/movies), answer key in week11/_solution/api/
 ```
