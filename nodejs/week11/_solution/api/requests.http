@@ -1,0 +1,31 @@
+### The API contract, one request at a time (VS Code REST Client: click "Send Request").
+### Start the API first:  docker compose exec node node week11/api/server.js
+
+### 1. The list: 200 and an array (at most 20, newest first)
+GET http://localhost:3001/api/movies
+
+### 2. Search by title: 200, only titles containing "star"
+GET http://localhost:3001/api/movies?title=star
+
+### 3. Add a movie: 201 and the movie with its new _id
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+
+{ "title": "My Test Movie", "year": 2026, "genres": ["Comedy", "Drama"] }
+
+### 4. Break the rules: 400 and { errors: { title, year } }
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+
+{ "title": "   ", "year": 1700 }
+
+### 5. Forget the Content-Type header: express.json() skips the body, so 400 again
+POST http://localhost:3001/api/movies
+
+{ "title": "No header", "year": 2026 }
+
+### 6. Not JSON at all: 400 { error: "The body is not valid JSON." }
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+
+{ title: oops }
