@@ -1,0 +1,84 @@
+### The API contract, one request at a time (VS Code REST Client: click "Send Request").
+### Start the API first:  docker compose exec node node week12/api/server.js
+### The login requests need a user. Add one first (the same email and password as below):
+###   docker compose exec node node week12/api/add-user.js student@example.com "movies-2026" "Student"
+
+@email = student@example.com
+@password = movies-2026
+
+### 1. The list: 200 and an array (at most 20, newest first). Public: no token, in class 2 too
+GET http://localhost:3001/api/movies
+
+### 2. Search by title: 200, only titles containing "star"
+GET http://localhost:3001/api/movies?title=star
+
+### ---- Class 1: log in ----
+
+### 3. Log in: 200 { token, name }. Copy the token into jwt.io to read what's inside it
+# @name login
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{ "email": "{{email}}", "password": "{{password}}" }
+
+### 4. The wrong password: 401 { error: "Wrong email or password." }
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{ "email": "{{email}}", "password": "not-my-password" }
+
+### 5. An email nobody has: 401, and the SAME message as request 4
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{ "email": "nobody@example.com", "password": "{{password}}" }
+
+### 6. Nothing to check: 400 { error: "Email and password are required." }
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{ "email": "{{email}}" }
+
+### ---- Add and delete. Class 1: open to anyone. Class 2: the token is required ----
+
+### 7. Add a movie WITHOUT a token. Class 1: 201. Class 2: 401 { error: "Log in first." }
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+
+{ "title": "No Token Movie", "year": 2026, "genres": ["Comedy"] }
+
+### 8. Add a movie WITH the token from request 3: 201 and the movie (request 9 deletes it)
+# @name add
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "title": "My Test Movie", "year": 2026, "genres": ["Comedy", "Drama"] }
+
+### 9. Delete the movie request 8 added, with the token: 204, no body. Send it again: 404
+DELETE http://localhost:3001/api/movies/{{add.response.body._id}}
+Authorization: Bearer {{login.response.body.token}}
+
+### 10. Delete WITHOUT a token. Class 1: 404 (no such movie). Class 2: 401, before the route even looks
+DELETE http://localhost:3001/api/movies/000000000000000000000000
+
+### 11. A token someone changed (one letter at the end): class 2: 401, the signature doesn't match
+DELETE http://localhost:3001/api/movies/000000000000000000000000
+Authorization: Bearer {{login.response.body.token}}x
+
+### 12. "Bearer" missing from the header: class 2: 401 { error: "Log in first." }
+DELETE http://localhost:3001/api/movies/000000000000000000000000
+Authorization: {{login.response.body.token}}
+
+### ---- Still the same as week 11 ----
+
+### 13. Break the rules (with a token in class 2): 400 and { errors: { title, year } }
+POST http://localhost:3001/api/movies
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "title": "   ", "year": 1700 }
+
+### 14. Not an ObjectId at all: 400 { error: "That is not a valid movie id." }
+DELETE http://localhost:3001/api/movies/banana
+Authorization: Bearer {{login.response.body.token}}
