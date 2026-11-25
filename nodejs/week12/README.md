@@ -27,11 +27,28 @@ container already has.
 Two terminals, from the repo root. Stop the week 11 API first (Ctrl+C): only one program can have port 3001.
 
 ```bash
-# Terminal 1: the API, port 3001
+# Terminal 1: the API, port 3001 (after a change: Ctrl+C, run it again)
 docker compose exec node node week12/api/server.js
 
-# Terminal 2: the app, as last week
+# ...or have it restart itself every time you save a .js file in week12/api
+docker compose exec node npx -y nodemon -L --watch week12/api week12/api/server.js
+
+# Terminal 2: the app, as last week (Vite reloads the page on save by itself)
 docker compose exec -w /app/app react npm run dev    # http://localhost:5173
+```
+
+Why nodemon `-L` and not `node --watch`? Windows doesn't tell the container a file changed, so `--watch` never
+restarts. `-L` makes nodemon check the files itself (like `usePolling` in `vite.config.js`). nodemon doesn't watch
+`.env`: after changing it, type `rs` and Enter in that terminal.
+
+**A port is stuck?** Ctrl+C stops the program in *that* terminal, but closing a terminal (the trash can) leaves it
+running inside the container. You'll see *Port 3001 is busy*, Vite moving to `5174`, or changes that seem to do nothing.
+
+```bash
+docker compose exec node ps -o pid,args          # what's running in the node container
+docker compose exec node pkill -f api/server.js  # stop every week 11/12 API (and nodemon)
+docker compose exec react pkill -f vite          # stop every Vite
+docker compose restart node                      # still stuck? restart the container (or: restart react)
 ```
 
 **Fell behind last class?** (no search, or no Delete button) Copy the starting point into your app:
@@ -91,10 +108,10 @@ row with `api/requests.http` (VS Code REST Client): send request 3 (the login) f
 
 ## Class 2: the bearer token
 
-Same two terminals. `--watch` restarts the API whenever you save `server.js` (not when you change `.env`):
+Same two terminals. Run the API under nodemon so it restarts whenever you save `server.js` (for `.env`, type `rs`):
 
 ```bash
-docker compose exec node node --watch week12/api/server.js
+docker compose exec node npx -y nodemon -L --watch week12/api week12/api/server.js
 ```
 
 1. **API**: replace the `TODO (class 2)` in `api/server.js` with `requireAuth`, and add it to `POST` and `DELETE`.

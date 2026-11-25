@@ -10,7 +10,7 @@
 
 const path = require('path');
 // The settings live in week12/api/.env (copy .env.example). quiet: no "injecting env" line.
-require('dotenv').config({ path: path.join(__dirname, '..', '..', 'api', '.env'), quiet: true });
+require('dotenv').config({ path: path.join(__dirname, '.env'), quiet: true });
 
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
@@ -125,4 +125,13 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on the server.' });
 });
 
-app.listen(PORT, () => console.log(`API on http://localhost:${PORT}/api/movies (database ${DB_NAME})`));
+// Express 5 hands a listen error to this callback, so check it: without the check, a second copy
+// prints "API on ..." even though the port is taken and the OLD copy is still answering.
+app.listen(PORT, (err) => {
+  if (err) {
+    console.error(`Port ${PORT} is busy: an API is already running. Stop it first:`);
+    console.error('  docker compose exec node pkill -f api/server.js   (then run this again)');
+    process.exit(1);
+  }
+  console.log(`API on http://localhost:${PORT}/api/movies (database ${DB_NAME})`);
+});
